@@ -1,8 +1,8 @@
 <template>
   <div class="bg-zinc-100 dark:bg-zinc-800 h-screen">
-    <div class="grid lg:grid-cols-2 px-4 w-full h-full">
+    <div class="grid lg:grid-cols-2 gap-4 px-4 w-full h-full">
       <div class="flex items-center justify-center">
-        <div class="w-full max-w-md">
+        <div class="w-full lg:max-w-md">
           <div class="space-y-3">
             <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
               <label for="lineOne" class="block text-xs font-medium dark:text-zinc-100 text-gray-900">Line 1: 5 syllables</label>
@@ -64,9 +64,9 @@
         </div>
       </div> 
 
-      <div class="flex items-center justify-center h-full">
+      <div class="lg:flex items-center justify-center h-full w-full">
         <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="rounded-lg">
-        <div v-else :class="submitLoading ? 'animate-pulse':''" class="w-[768px] h-[896px] border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
+        <div v-else :class="submitLoading ? 'animate-pulse':''" class="px-4 h-96 lg:w-[768px] lg:h-[896px] border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
           <p v-if="!submitLoading">Create your masterpiece and the art will show up here</p>
           <p v-else>Loading...patience young space traveler</p>
         </div>

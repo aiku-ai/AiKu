@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center h-screen bg-zinc-100 dark:bg-zinc-800">
-    <main>
+    <main class="px-4">
       <h1 class="text-3xl font-bold dark:text-zinc-200 text-zinc-700">
         <span class="block">Hyperdrive engaged</span> 
         <span class="block">Time and space a memory</span> 
