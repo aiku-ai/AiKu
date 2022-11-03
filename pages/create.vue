@@ -1,6 +1,6 @@
 <template>
-  <div class="h-screen">
-    <div class="grid lg:grid-cols-2 gap-4 px-4 w-full h-full">
+  <div>
+    <div class="grid lg:grid-cols-2 gap-4 px-4 w-full h-screen">
       <div class="flex items-center justify-center">
         <div class="w-full lg:max-w-md">
           <div class="space-y-3">
@@ -94,9 +94,12 @@
         </div>
       </div> 
 
-      <div class="lg:flex items-center justify-center h-full w-full py-4">
+      <div class="flex flex-0 items-center lg:justify-end justify-center py-4">
         <!-- <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="w-full h-auto object-cover object-center rounded-lg"> -->
-        <img v-if="predictionImgUrl && !submitLoading" src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png" alt="" class="w-full h-full object-cover object-center rounded-lg">
+        <img v-if="predictionImgUrl && !submitLoading" 
+          src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png"  
+          class="2xl:w-10/12 w-full h-full object-cover object-center rounded-lg"
+        >
         <div v-else :class="submitLoading ? 'animate-pulse':''" class="px-4 h-96 lg:w-full lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
           <p v-if="!submitLoading">Create your masterpiece and the art will show up here</p>
           <p v-else>Loading...patience, young space traveler</p>
@@ -124,7 +127,7 @@ const submitLoading = ref(false)
 const loadingStatus = ref<string>()
 const predictionResult = ref<PredictionResponse>()
 const predictionId = ref<string>()
-const predictionImgUrl = ref<string>()
+const predictionImgUrl = ref<string>("blah")
 const postIncrement = ref(0)
 
 // SD Configuration

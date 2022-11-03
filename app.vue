@@ -1,18 +1,10 @@
 <template>
-  <NuxtLayout>
-    <div :class="isDark ? 'dark':''">
-      <div class="dark:bg-zinc-800 bg-zinc-100">
-        <NuxtPage />
-      </div>
-    </div>
-  </NuxtLayout>
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>
-
-<script setup lang="ts">
-
-const isDark = ref(true)
-
-</script>
 
 <style>
 html {
