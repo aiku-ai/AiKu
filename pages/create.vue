@@ -63,7 +63,7 @@
           </div>
 
           <div class="mt-5 relative">
-            <button @click="showAdvancedOpts = !showAdvancedOpts" type="button" :class="showAdvancedOpts ? 'dark:text-zinc-300 text-zinc-800':'dark:text-zinc-500 text-zinc-600'" class="w-full inline-flex justify-between items-center">
+            <button @click="showAdvancedOpts = !showAdvancedOpts" type="button" :class="showAdvancedOpts ? 'dark:text-zinc-300 text-zinc-700':'dark:text-zinc-500 text-zinc-400'" class="w-full inline-flex justify-between items-center">
               Advanced Options
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -80,13 +80,13 @@
             <div v-if="showAdvancedOpts" class="absolute mt-2 space-y-3 w-full dark:bg-zinc-800 bg-zinc-100 pb-4">
               <div>
                 <label for="preset" class="block text-xs font-medium dark:text-zinc-300 text-zinc-800">Diffusion Preset</label>
-                <select v-model="selectedPreset" id="preset" name="preset" class="mt-1 block bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 w-full rounded-md border-zinc-300 py-2 pl-3 pr-10 text-base focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
+                <select v-model="selectedPreset" id="preset" name="preset" class="mt-1 block bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 w-full rounded-md border-zinc-300 py-2 pl-3 pr-10 text-base focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
                   <option :value="preset[0]" v-for="preset in DiffusionPresets">{{ preset[0] }}</option>
                 </select>
               </div>
               <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
                 <label for="promptStrength" class="block text-xs font-medium dark:text-zinc-300 text-gray-900">Prompt Strength</label>
-                <input v-model="selectedPromptStrength" type="text" name="prompt-strength" id="prompt-strength" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-300 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                <input v-model="selectedPromptStrength" type="text" name="prompt-strength" id="prompt-strength" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-800 dark:text-zinc-300 placeholder-gray-500 focus:ring-0 sm:text-sm">
               </div> 
             </div>
           </div>
@@ -95,12 +95,12 @@
       </div> 
 
       <div class="flex flex-0 items-center lg:justify-end justify-center py-4">
-        <!-- <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="w-full h-auto object-cover object-center rounded-lg"> -->
-        <img v-if="predictionImgUrl && !submitLoading" 
-          src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png"  
-          class="2xl:w-10/12 w-full h-full object-cover object-center rounded-lg"
-        >
-        <div v-else :class="submitLoading ? 'animate-pulse':''" class="px-4 h-96 lg:w-full lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
+        <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="2xl:w-10/12 w-full h-full object-cover object-center rounded-lg">
+        <!-- <img v-if="predictionImgUrl && !submitLoading"  -->
+        <!--   src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png"   -->
+        <!--   class="2xl:w-10/12 w-full h-full object-cover object-center rounded-lg" -->
+        <!-- > -->
+        <div v-else :class="submitLoading ? 'animate-pulse':''" class="px-4 h-96 2xl:w-10/12 lg:w-full lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
           <p v-if="!submitLoading">Create your masterpiece and the art will show up here</p>
           <p v-else>Loading...patience, young space traveler</p>
         </div>
@@ -127,7 +127,7 @@ const submitLoading = ref(false)
 const loadingStatus = ref<string>()
 const predictionResult = ref<PredictionResponse>()
 const predictionId = ref<string>()
-const predictionImgUrl = ref<string>("blah")
+const predictionImgUrl = ref<string>()
 const postIncrement = ref(0)
 
 // SD Configuration
