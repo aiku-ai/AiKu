@@ -1,6 +1,8 @@
 import { useValidatedBody, z } from 'h3-zod'
 import { PredictionResponse, DiffusionPresets } from '~/models/replicate'
 
+const config = useRuntimeConfig()
+
 export default defineEventHandler(async (event):Promise<PredictionResponse> => {
   const body = await useValidatedBody(event, z.object({
     prompt: z.string(),
@@ -8,11 +10,13 @@ export default defineEventHandler(async (event):Promise<PredictionResponse> => {
   }))
 
   const presetValue = DiffusionPresets[body.preset]
+  
+  console.log(config)
 
   const response = await $fetch<PredictionResponse>("https://api.replicate.com/v1/predictions", {
     method: "POST",
     headers: {
-      "Authorization": "Token 9f7d6719f5a4f1301cfcd21fb4acf2b0ff06dd31",
+      "Authorization": `Token ${config.repApiKey}`,
       "Content-Type": "application/json"
     },
     body: {
