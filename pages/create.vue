@@ -6,15 +6,15 @@
           <div class="space-y-3">
             <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
               <label for="lineOne" class="block text-xs font-medium dark:text-zinc-100 text-gray-900">Line 1: 5 syllables</label>
-              <input v-model="lineOne" type="text" name="lineOne" id="line-one" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-gray-100 placeholder-gray-500 focus:ring-0 sm:text-sm" placeholder="Hyperdrive engaged">
+              <input v-model="lineOne" type="text" name="lineOne" id="line-one" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-800 dark:text-gray-100 placeholder-gray-500 focus:ring-0 sm:text-sm" placeholder="Hyperdrive engaged">
             </div> 
             <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
               <label for="lineTwo" class="block text-xs font-medium dark:text-zinc-100 text-gray-900">Line 2: 7 syllables</label>
-              <input v-model="lineTwo" type="text" name="lineTwo" id="line-two" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-gray-100 placeholder-gray-500 focus:ring-0 sm:text-sm" placeholder="Time and space a memory">
+              <input v-model="lineTwo" type="text" name="lineTwo" id="line-two" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-800 dark:text-gray-100 placeholder-gray-500 focus:ring-0 sm:text-sm" placeholder="Time and space a memory">
             </div> 
             <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
               <label for="lineThree" class="block text-xs font-medium dark:text-zinc-100 text-gray-900">Line 3: 5 syllables</label>
-              <input v-model="lineThree" type="text" name="lineThree" id="line-three" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-gray-100 placeholder-gray-500 focus:ring-0 sm:text-sm" placeholder="Lightspeed traveler">
+              <input v-model="lineThree" type="text" name="lineThree" id="line-three" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-800 dark:text-gray-100 placeholder-gray-500 focus:ring-0 sm:text-sm" placeholder="Lightspeed traveler">
             </div> 
           </div>
           <div class="mt-6">
@@ -86,7 +86,7 @@
               </div>
               <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
                 <label for="promptStrength" class="block text-xs font-medium dark:text-zinc-300 text-gray-900">Prompt Strength</label>
-                <input v-model="selectedPromptStrength" type="text" name="prompt-strength" id="prompt-strength" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-800 dark:text-zinc-300 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                <input v-model="selectedPromptStrength" type="text" name="prompt-strength" id="prompt-strength" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-800 dark:text-zinc-100 placeholder-gray-500 focus:ring-0 sm:text-sm">
               </div> 
             </div>
           </div>
