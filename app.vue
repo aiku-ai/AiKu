@@ -1,7 +1,9 @@
 <template>
   <NuxtLayout>
     <div :class="isDark ? 'dark':''">
-      <NuxtPage />
+      <div class="dark:bg-zinc-800 bg-zinc-100">
+        <NuxtPage />
+      </div>
     </div>
   </NuxtLayout>
 </template>

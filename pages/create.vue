@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-zinc-100 dark:bg-zinc-800 h-screen">
+  <div class="h-screen">
     <div class="grid lg:grid-cols-2 gap-4 px-4 w-full h-full">
       <div class="flex items-center justify-center">
         <div class="w-full lg:max-w-md">
@@ -61,14 +61,45 @@
             <p v-if="submitLoading" class="mt-1 text-zinc-600 dark:text-zinc-400 text-sm">Diffusion generating, this takes time, be patient</p>
             <p v-if="submitLoading" class="mt-1 text-zinc-600 dark:text-zinc-400 text-sm">Status: {{ loadingStatus }}</p>
           </div>
+
+          <div class="mt-5 relative">
+            <button @click="showAdvancedOpts = !showAdvancedOpts" type="button" :class="showAdvancedOpts ? 'dark:text-zinc-300 text-zinc-800':'dark:text-zinc-500 text-zinc-600'" class="w-full inline-flex justify-between items-center">
+              Advanced Options
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke-width="1.5" 
+                stroke="currentColor" 
+                :class="showAdvancedOpts ? 'rotate-180':''"
+                class="w-6 h-6"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </button>
+            <div v-if="showAdvancedOpts" class="absolute mt-2 space-y-3 w-full dark:bg-zinc-800 bg-zinc-100 pb-4">
+              <div>
+                <label for="preset" class="block text-xs font-medium dark:text-zinc-300 text-zinc-800">Diffusion Preset</label>
+                <select v-model="selectedPreset" id="preset" name="preset" class="mt-1 block bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 w-full rounded-md border-zinc-300 py-2 pl-3 pr-10 text-base focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
+                  <option :value="preset[0]" v-for="preset in DiffusionPresets">{{ preset[0] }}</option>
+                </select>
+              </div>
+              <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
+                <label for="promptStrength" class="block text-xs font-medium dark:text-zinc-300 text-gray-900">Prompt Strength</label>
+                <input v-model="selectedPromptStrength" type="text" name="prompt-strength" id="prompt-strength" class="bg-zinc-100 dark:bg-zinc-800 block w-full border-0 p-0 text-zinc-300 placeholder-gray-500 focus:ring-0 sm:text-sm">
+              </div> 
+            </div>
+          </div>
+
         </div>
       </div> 
 
-      <div class="lg:flex items-center justify-center h-full w-full">
-        <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="rounded-lg">
-        <div v-else :class="submitLoading ? 'animate-pulse':''" class="px-4 h-96 lg:w-[768px] lg:h-[896px] border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
+      <div class="lg:flex items-center justify-center h-full w-full py-4">
+        <!-- <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="w-full h-auto object-cover object-center rounded-lg"> -->
+        <img v-if="predictionImgUrl && !submitLoading" src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png" alt="" class="w-full h-full object-cover object-center rounded-lg">
+        <div v-else :class="submitLoading ? 'animate-pulse':''" class="px-4 h-96 lg:w-full lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
           <p v-if="!submitLoading">Create your masterpiece and the art will show up here</p>
-          <p v-else>Loading...patience young space traveler</p>
+          <p v-else>Loading...patience, young space traveler</p>
         </div>
       </div>
     </div>
@@ -76,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { PredictionResponse } from "~/models/replicate"
+import { PredictionResponse, DiffusionPresets} from "~/models/replicate"
 
 const lineOne = ref("")
 const lineTwo = ref("")
@@ -96,6 +127,11 @@ const predictionId = ref<string>()
 const predictionImgUrl = ref<string>()
 const postIncrement = ref(0)
 
+// SD Configuration
+const selectedPreset = ref("Ominous Escape")
+const selectedPromptStrength = ref(0.8)
+const showAdvancedOpts = ref(false)
+
 const submitHaiku = async () => {
   postIncrement.value++
   submitLoading.value = true
@@ -106,7 +142,8 @@ const submitHaiku = async () => {
       key: `${lineOne.value} ${lineTwo.value} ${lineThree.value}`,
       body: {
         prompt: `${lineOne.value} ${lineTwo.value} ${lineThree.value}`,
-        preset: "NeonMecha"
+        preset: selectedPreset.value,
+        promptStrength: parseFloat(selectedPromptStrength.value)
       }
     })
 
