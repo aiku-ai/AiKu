@@ -98,7 +98,19 @@
       <!--   class="lg:absolute inset-0 w-full h-96 lg:h-full object-cover object-center rounded-lg" -->
       <!-- > -->
       <div v-else :class="submitLoading ? 'animate-pulse':''" class="lg:absolute inset-0 px-3 w-full h-96 lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
-        <p v-if="!submitLoading">Create your masterpiece and the art will show up here</p>
+        <div v-if="!submitLoading" class="text-center">
+          <p>Create your masterpiece and the art will show up here</p>
+          <p v-if="formComplete && !inputValid" class="mt-5 dark:text-red-500 text-red-600">Incorrect number of syllables</p>
+          <p v-if="formComplete && inputValid" class="mt-5 dark:text-green-500 text-green-600 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-3 h-5 w-5" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
+              <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
+              <circle cx="15" cy="9" r="1" />
+            </svg>
+            Let it rip
+          </p>
+        </div>
         <div v-else>
           <p>Loading...patience, young space traveler</p>
           <p class="mt-1">Status: {{ loadingStatus }}</p>
@@ -109,14 +121,26 @@
 </template>
 
 <script setup lang="ts">
+import { syllable } from 'syllable'
 import { PredictionResponse, DiffusionPresets} from "~/models/replicate"
 
 const lineOne = ref("")
 const lineTwo = ref("")
 const lineThree = ref("")
 
-const inputValid = computed(() => {
+const formComplete = computed(() => {
   if(lineOne.value && lineTwo.value && lineThree.value) {
+    return true
+  }
+  return false
+})
+
+const inputValid = computed(() => {
+  if(
+    syllable(lineOne.value) === 5 && 
+    syllable(lineTwo.value) === 7 && 
+    syllable(lineThree.value) === 5
+  ) {
     return true
   }
   return false
@@ -191,5 +215,4 @@ const fetchPrediction = async () => {
     console.log(error)
   }
 }
-
 </script>
