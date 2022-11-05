@@ -1,5 +1,5 @@
 <template>
-  <div class="grid lg:grid-cols-2 gap-4 px-4 py-12 lg:py-4 w-full lg:h-screen">
+  <div class="grid lg:grid-cols-2 gap-4 px-4 py-4 lg:py-4 w-full lg:h-screen">
     <div class="lg:flex items-center justify-center">
       <div class="w-full lg:max-w-md">
         <div class="space-y-3">
@@ -45,7 +45,7 @@
             >
           </div> 
         </div>
-        <div class="mt-6">
+        <div class="mt-6 flex items-center space-x-2">
           <button 
             v-if="!submitLoading && inputValid"
             @click="submitHaiku" 
@@ -86,6 +86,17 @@
             </svg>
             Create 
           </button>
+          <button 
+            v-if="!submitLoading && predictionImgUrl"
+            @click="haiku.showOverlay = true" 
+            type="button" 
+            class="lg:hidden w-full inline-flex justify-center items-center rounded-md border border-transparent bg-violet-600 px-8 py-3 text-base font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-1 mr-3 h-5 w-5 lg:h-6 lg:w-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+            </svg>
+            Share 
+          </button>
         </div>
 
         <div class="mt-5 relative">
@@ -120,13 +131,13 @@
       </div>
     </div> 
 
-    <div class="lg:relative mt-10 lg:mt-0">
-      <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="lg:absolute inset-0 w-full h-96 lg:h-full object-cover object-center rounded-lg">
+    <div class="lg:relative">
+      <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="lg:absolute inset-0 w-full h-[26rem] lg:h-full object-cover object-center rounded-lg">
       <!-- <img v-if="predictionImgUrl && !submitLoading"  -->
       <!--   src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png"   -->
-      <!--   class="lg:absolute inset-0 w-full h-96 lg:h-full object-cover object-center rounded-lg" -->
+      <!--   class="lg:absolute inset-0 w-full h-[26rem] lg:h-full object-cover object-center rounded-lg" -->
       <!-- > -->
-      <div v-else :class="submitLoading ? 'animate-pulse':''" class="lg:absolute inset-0 px-3 w-full h-96 lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
+      <div v-else :class="submitLoading ? 'animate-pulse':''" class="lg:absolute inset-0 px-3 w-full h-[26rem] lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
         <div v-if="!submitLoading && !diffusionError" class="text-center">
           <p>Create your masterpiece and the art will show up here</p>
           <p v-if="formComplete && !inputValid" class="mt-5 dark:text-red-500 text-red-600">Incorrect number of syllables</p>
@@ -155,6 +166,9 @@
 <script setup lang="ts">
 import { syllable } from 'syllable'
 import { PredictionResponse, DiffusionPresets} from "~/models/replicate"
+import { useHaikuStore } from '~/stores/haiku'
+
+const haiku = useHaikuStore()
 
 const lineOne = ref("")
 const lineTwo = ref("")
@@ -255,8 +269,15 @@ const fetchPrediction = async () => {
     }
 
     if(data.value.status === 'succeeded') {
+      // probably could just use the store for everything instead of this?
+      haiku.lineOne = lineOne.value
+      haiku.lineTwo = lineTwo.value
+      haiku.lineThree = lineThree.value
+
       // I know this is a little dubious, it's dev bare with me
+      haiku.imgUrl = data.value.output[0]
       predictionImgUrl.value = data.value.output[0] 
+
       submitLoading.value = false
       return
     } 
