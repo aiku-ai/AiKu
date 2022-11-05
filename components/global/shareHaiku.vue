@@ -3,7 +3,7 @@
     <div class="absolute -top-8 right-0 flex items-center justify-between w-full">
       <div>
         <fieldset>
-          <div class="mt-1 flex items-center space-x-2">
+          <div class="mt-1 flex items-center space-x-2 ">
             <label :class="textColor === 'text-white' ? 'ring-1':''" class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-white">
               <input v-model="textColor" type="radio" name="color-choice-white" value="text-white" class="sr-only" aria-labelledby="color-choice-white">
               <span id="color-choice-white" class="sr-only">White</span>
