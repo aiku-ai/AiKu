@@ -201,7 +201,6 @@ const loadingStatus = ref<string>()
 const predictionResult = ref<PredictionResponse>()
 const predictionId = ref<string>()
 const predictionImgUrl = ref<string>()
-const postIncrement = ref(0)
 
 // SD Configuration
 const selectedPreset = ref("Ominous Escape")
@@ -209,13 +208,12 @@ const selectedPromptStrength = ref(0.8)
 const showAdvancedOpts = ref(false)
 
 const submitHaiku = async () => {
-  postIncrement.value++
   submitLoading.value = true
 
   try {
     const { data, error } = await useFetch("/api/diffusions", {
       method: "POST", 
-      key: `${lineOne.value} ${lineTwo.value} ${lineThree.value}`,
+      key: `${lineOne.value}${lineTwo.value}${lineThree.value}${selectedPreset.value}`,
       body: {
         prompt: `${lineOne.value} ${lineTwo.value} ${lineThree.value}`,
         preset: selectedPreset.value,
@@ -243,7 +241,7 @@ const fetchPrediction = async () => {
   try {
     const { data, error } = await useFetch(`/api/diffusions/${predictionId.value}`, {
       method: "GET", 
-      key: `${lineOne.value} ${lineTwo.value} ${lineThree.value} ${fetchIncrement.value}`,
+      key: `${lineOne.value}${lineTwo.value}${lineThree.value}${predictionId.value}${fetchIncrement.value}`,
     })
 
     if(error.value) {

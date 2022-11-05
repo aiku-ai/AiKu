@@ -11,9 +11,6 @@ export default defineEventHandler(async (event):Promise<PredictionResponse> => {
   }))
 
   const presetValue = DiffusionPresets.get(body.preset)
-  
-  console.log(body)
-  console.log(presetValue)
 
   const response = await $fetch<PredictionResponse>("https://api.replicate.com/v1/predictions", {
     method: "POST",
