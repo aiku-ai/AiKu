@@ -12,8 +12,10 @@
     "nuxt": "3.0.0-rc.12"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
+    "dom-to-image": "^2.6.0",
     "h3-zod": "^0.3.5",
     "syllable": "^5.0.1"
   }

@@ -3,7 +3,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     repApiKey: ''
   },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@pinia/nuxt',
+  ],
   meta: {
     meta: [
       { name: 'viewport', content: 'width=device-width, initial-scale=1' }
