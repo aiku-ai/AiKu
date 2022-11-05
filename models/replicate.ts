@@ -34,7 +34,7 @@ export interface Urls {
 
 
 export const DiffusionPresets = new Map<string, string>([
-  ["Neon Mecha", "neon ambiance, abstract black oil, gear mecha, detailed acrylic grunge, intricate complexity, rendered in unreal engine, photorealistic"],
+  ["Neon Mecha", "neon ambiance, gear mecha, intricate complexity, rendered in unreal engine, photorealistic"],
   ["Ominous Escape", "professional ominous concept art, elegant, highly detailed digital painting, concept art, smooth, sharp focus, illustration"],
   ["Lush Illumination", "unreal engine, greg rutowski, loish, rhads, beeple, makoto shinkai and lois van baarle, ilya kuvshinov, rossdraws, tom bagshaw, alphonse mucha, global illumination, detailed and intricate environment"],
 ])

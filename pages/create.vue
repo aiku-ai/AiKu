@@ -127,7 +127,7 @@
       <!--   class="lg:absolute inset-0 w-full h-96 lg:h-full object-cover object-center rounded-lg" -->
       <!-- > -->
       <div v-else :class="submitLoading ? 'animate-pulse':''" class="lg:absolute inset-0 px-3 w-full h-96 lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
-        <div v-if="!submitLoading" class="text-center">
+        <div v-if="!submitLoading && !diffusionError" class="text-center">
           <p>Create your masterpiece and the art will show up here</p>
           <p v-if="formComplete && !inputValid" class="mt-5 dark:text-red-500 text-red-600">Incorrect number of syllables</p>
           <p v-if="formComplete && inputValid" class="mt-5 dark:text-green-500 text-green-600 flex items-center justify-center">
@@ -140,9 +140,12 @@
             Let it rip
           </p>
         </div>
-        <div v-else>
+        <div v-if="submitLoading && !diffusionError" class="text-center">
           <p>Loading...patience, young space traveler</p>
           <p class="mt-1">Status: {{ loadingStatus }}</p>
+        </div>
+        <div v-if="diffusionError" class="text-center">
+          <p class="mt-5 dark:text-red-500 text-red-600">Failed to create art. Possibles reason: NSFW prompt or network issue.</p>
         </div>
       </div>
     </div>
@@ -197,6 +200,7 @@ const lineThreeValid = computed(() => {
 })
 
 const submitLoading = ref(false)
+const diffusionError = ref<boolean>()
 const loadingStatus = ref<string>()
 const predictionResult = ref<PredictionResponse>()
 const predictionId = ref<string>()
@@ -208,6 +212,7 @@ const selectedPromptStrength = ref(0.8)
 const showAdvancedOpts = ref(false)
 
 const submitHaiku = async () => {
+  diffusionError.value = null
   submitLoading.value = true
 
   try {
@@ -230,6 +235,7 @@ const submitHaiku = async () => {
     // call fetchPrediction
     fetchPrediction()
   } catch(error) {
+    diffusionError.value = true
     console.log(error)
   }
 }
@@ -252,14 +258,20 @@ const fetchPrediction = async () => {
       // I know this is a little dubious, it's dev bare with me
       predictionImgUrl.value = data.value.output[0] 
       submitLoading.value = false
-      fetchIncrement.value = 0
-    } else {
-      loadingStatus.value = data.value.status
-      setTimeout(() => {
-        fetchPrediction()
-      }, 5000)
-    }
+      return
+    } 
+
+    loadingStatus.value = data.value.status
+    if(data.value.status === 'failed') {
+      throw "GET Prediction returned FAILED status"
+    } 
+    
+    setTimeout(() => {
+      fetchPrediction()
+    }, 5000)
   } catch(error) {
+    diffusionError.value = true
+    submitLoading.value = false
     console.log(error)
   }
 }
