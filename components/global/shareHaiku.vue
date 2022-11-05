@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-[93vh] shadow-2xl shadow-violet-600/50">
+  <div class="relative h-[85vh] shadow-2xl shadow-violet-600/50">
     <div class="absolute -top-8 right-0 flex items-center justify-between w-full">
       <div>
         <fieldset>
