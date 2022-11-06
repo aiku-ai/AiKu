@@ -118,7 +118,7 @@
             <div>
               <label for="preset" class="block text-xs font-medium dark:text-zinc-300 text-zinc-800">Diffusion Preset</label>
               <select v-model="selectedPreset" id="preset" name="preset" class="mt-1 block bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 w-full rounded-md border-zinc-300 py-2 pl-3 pr-10 text-base focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
-                <option :value="preset[0]" v-for="preset in DiffusionPresets">{{ preset[0] }}</option>
+                <option :value="preset[1]" v-for="preset in presets">{{ preset[0] }}</option>
               </select>
             </div>
             <div class="rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-violet-600 focus-within:ring-1 focus-within:ring-violet-600 transition-hover-300">
@@ -166,6 +166,7 @@
 <script setup lang="ts">
 import { syllable } from 'syllable'
 import { PredictionResponse, DiffusionPresets} from "~/models/replicate"
+import { Presets } from "~/models/strapi"
 import { useHaikuStore } from '~/stores/haiku'
 
 const haiku = useHaikuStore()
@@ -221,7 +222,7 @@ const predictionId = ref<string>()
 const predictionImgUrl = ref<string>()
 
 // SD Configuration
-const selectedPreset = ref("Ominous Escape")
+const selectedPreset = ref()
 const selectedPromptStrength = ref(0.8)
 const showAdvancedOpts = ref(false)
 
@@ -296,4 +297,30 @@ const fetchPrediction = async () => {
     console.log(error)
   }
 }
+
+
+// PRESETS
+const presets = ref(new Map<string,string>)
+const { data: presetsResp, error: presetsError } = await useFetch("/api/presets")
+
+
+
+// if there is not an error then we set the presets array from API data
+if (!presetsError.value) {
+  for (const preset of presetsResp.value.data) {
+    presets.value.set(preset.attributes.name, preset.attributes.value) 
+    if(preset.attributes.isDefault) {
+      selectedPreset.value = preset.attributes.value
+    }
+  }
+}
+
+// // if there is an error then we set it from backup data
+if (presetsError) {
+  for (const preset of DiffusionPresets) {
+    presets.value.set(preset[0], preset[1]) 
+  }
+}
+
+
 </script>
