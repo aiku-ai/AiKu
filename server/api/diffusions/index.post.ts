@@ -6,11 +6,9 @@ const config = useRuntimeConfig()
 export default defineEventHandler(async (event):Promise<PredictionResponse> => {
   const body = await useValidatedBody(event, z.object({
     prompt: z.string(),
-    preset: z.enum(["Neon Mecha", "Ominous Escape", "Lush Illumination"]),
+    preset: z.string().optional().nullable(),
     promptStrength: z.number()
   }))
-
-  const presetValue = DiffusionPresets.get(body.preset)
 
   const response = await $fetch<PredictionResponse>("https://api.replicate.com/v1/predictions", {
     method: "POST",
@@ -21,7 +19,7 @@ export default defineEventHandler(async (event):Promise<PredictionResponse> => {
     body: {
       "version": "c24bbf13332c755f9e1c8b3f10c7f438889145def57d554a74ea751dc5e3b509",
       "input": {
-        "prompt": body.prompt + ',' + presetValue,
+        "prompt": body.prompt + ',' + body.preset,
         "width": 768,
         "height": 896,
         "prompt_strength": body.promptStrength,
