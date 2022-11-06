@@ -303,8 +303,6 @@ const fetchPrediction = async () => {
 const presets = ref(new Map<string,string>)
 const { data: presetsResp, error: presetsError } = await useFetch("/api/presets")
 
-
-
 // if there is not an error then we set the presets array from API data
 if (!presetsError.value) {
   for (const preset of presetsResp.value.data) {
@@ -316,10 +314,15 @@ if (!presetsError.value) {
 }
 
 // // if there is an error then we set it from backup data
-if (presetsError) {
+if (presetsError.value) {
   for (const preset of DiffusionPresets) {
     presets.value.set(preset[0], preset[1]) 
+    if(preset[0] === "None") {
+      selectedPreset.value = preset[1]
+    }
   }
+  console.log("error fetching presets, using fallback")
+  console.log(presetsError)
 }
 
 
