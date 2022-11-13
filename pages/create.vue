@@ -255,6 +255,23 @@ const submitHaiku = async () => {
   }
 }
 
+const saveAiku = async () => {
+  try {
+    await useFetch("/api/aikus", {
+      method: "POST", 
+      key: Date.now().toString(),
+      body: {
+        imgUrl: predictionImgUrl.value,
+        lineOne: lineOne.value,
+        lineTwo: lineTwo.value,
+        lineThree: lineThree.value,
+      }
+    })
+  } catch(error) {
+    console.log(error)
+  }
+}
+
 const fetchIncrement = ref(0)
 
 const fetchPrediction = async () => {
@@ -278,6 +295,9 @@ const fetchPrediction = async () => {
       // I know this is a little dubious, it's dev bare with me
       haiku.imgUrl = data.value.output[0]
       predictionImgUrl.value = data.value.output[0] 
+      
+      // saveAiku to strapeezy
+      await saveAiku()
 
       submitLoading.value = false
       return
