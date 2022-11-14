@@ -10,11 +10,12 @@ export default defineEventHandler(async (event) => {
     lineOne: z.string(),
     lineTwo: z.string(),
     lineThree: z.string(),
-    imgUrl: z.string()
+    imgUrl: z.string(),
+    presetId: z.number()
   }))
 
   try {
-    const aikuId = await uploadAiku(body.lineOne, body.lineTwo, body.lineThree)
+    const aikuId = await uploadAiku(body.lineOne, body.lineTwo, body.lineThree, body.presetId)
     await uploadImage(body.imgUrl, aikuId)
   } catch(error) {
     console.log(error)
@@ -26,7 +27,8 @@ export default defineEventHandler(async (event) => {
 const uploadAiku = async (
   lineOne:string,
   lineTwo:string,
-  lineThree:string
+  lineThree:string,
+  preset:number
 ):Promise<number> => {
   const response = await $fetch(`${config.strapiApi}/aikus`, {
     method: "POST",
@@ -37,7 +39,8 @@ const uploadAiku = async (
       data: {
         lineOne: lineOne,
         lineTwo: lineTwo,
-        lineThree: lineThree
+        lineThree: lineThree,
+        preset:preset
       }
     }
   })
