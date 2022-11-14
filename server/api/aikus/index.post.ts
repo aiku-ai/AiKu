@@ -1,7 +1,7 @@
 import { useValidatedBody, z } from 'h3-zod'
 import { v4 as uuidv4 } from 'uuid';
 import { FormData } from 'formdata-node'
-import { ImageResponse } from '~/models/strapi'
+import { ImageResponse, CreateAikuResponse } from '~/models/strapi'
 
 const config = useRuntimeConfig()
 
@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     lineTwo: z.string(),
     lineThree: z.string(),
     imgUrl: z.string(),
-    presetId: z.number()
+    presetId: z.number().nullable().optional()
   }))
 
   try {
@@ -28,9 +28,9 @@ const uploadAiku = async (
   lineOne:string,
   lineTwo:string,
   lineThree:string,
-  preset:number
+  preset?:number
 ):Promise<number> => {
-  const response = await $fetch(`${config.strapiApi}/aikus`, {
+  const response = await $fetch<CreateAikuResponse>(`${config.strapiApi}/aikus`, {
     method: "POST",
     headers: {
       "Authorization": `bearer ${config.strapiToken}`,
@@ -44,6 +44,7 @@ const uploadAiku = async (
       }
     }
   })
+  console.log(response)
   return response.data.id
 }
 

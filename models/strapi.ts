@@ -69,3 +69,24 @@ export interface ImageResponseMedium {
   url:    string;
 }
 
+export interface CreateAikuResponse {
+  data: Data;
+  meta: Meta;
+}
+
+export interface Data {
+  id:         number;
+  attributes: Attributes;
+}
+
+export interface Attributes {
+  lineOne:     string;
+  lineTwo:     string;
+  lineThree:   string;
+  createdAt:   string;
+  updatedAt:   string;
+  publishedAt: string;
+}
+
+export interface Meta {
+}
