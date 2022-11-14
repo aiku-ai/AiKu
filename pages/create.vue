@@ -347,9 +347,7 @@ if (presetsError.value) {
 }
 
 const presetId = computed(() => {
-  console.log(selectedPreset.value)
   const matching = presetsResp.value.data.filter(p => p.attributes.name === selectedPreset.value)
-  console.log(matching)
   if(matching.length > 0) {
     return matching[0].id
   }

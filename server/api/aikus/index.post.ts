@@ -44,7 +44,6 @@ const uploadAiku = async (
       }
     }
   })
-  console.log(response)
   return response.data.id
 }
 
