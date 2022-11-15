@@ -149,7 +149,7 @@
         <!--   src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png"   -->
         <!--   class="lg:absolute inset-0 w-full h-[26rem] lg:h-full object-cover object-center rounded-lg" -->
         <!-- > -->
-        <div class="hidden lg:block absolute bottom-4 left-4 bg-black opacity-50 p-4 rounded-lg">
+        <div class="hidden lg:block absolute bottom-4 left-4 bg-black/50 p-4 rounded-lg">
           <p class="font-bold text-lg text-white">{{ lineOne }}</p> 
           <p class="font-bold text-lg text-white">{{ lineTwo }}</p> 
           <p class="font-bold text-lg text-white">{{ lineThree }}</p> 

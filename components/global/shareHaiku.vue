@@ -18,7 +18,7 @@
       :src="haiku.imgUrl" 
       class="lg:absolute inset-0 w-full h-full object-cover object-center rounded-lg"
     >
-    <div class="absolute bottom-4 left-4 bg-black opacity-50 rounded-lg p-4">
+    <div class="absolute bottom-4 left-4 bg-black/50 rounded-lg p-4">
       <p class="font-bold text-lg text-white">{{ haiku.lineOne }}</p> 
       <p class="font-bold text-lg text-white">{{ haiku.lineTwo }}</p> 
       <p class="font-bold text-lg text-white">{{ haiku.lineThree }}</p> 
