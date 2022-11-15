@@ -70,16 +70,16 @@ export interface ImageResponseMedium {
 }
 
 export interface CreateAikuResponse {
-  data: Data;
-  meta: Meta;
+  data: CreateAikuResponseData;
+  meta: CreateAikuResponseMeta;
 }
 
-export interface Data {
+export interface CreateAikuResponseData {
   id:         number;
-  attributes: Attributes;
+  attributes: CreateAikuResponseAttributes;
 }
 
-export interface Attributes {
+export interface CreateAikuResponseAttributes {
   lineOne:     string;
   lineTwo:     string;
   lineThree:   string;
@@ -88,5 +88,95 @@ export interface Attributes {
   publishedAt: string;
 }
 
-export interface Meta {
+export interface CreateAikuResponseMeta {
+}
+
+
+export interface GetAikuResponse {
+  data: GetAikuResponseData;
+  meta: GetAikuResponseMeta;
+}
+
+export interface GetAikuResponseData {
+  id:         number;
+  attributes: GetAikuResponseAttributes;
+}
+
+export interface GetAikuResponseAttributes {
+  lineOne:     string;
+  lineTwo:     string;
+  lineThree:   string;
+  createdAt:   string;
+  updatedAt:   string;
+  publishedAt: string;
+  image:       GetAikuResponseImage;
+  preset:      Preset;
+  linkCard:    GetAikuResponseImage;
+}
+
+export interface GetAikuResponseImage {
+  data: GetAikuResponseImageData;
+}
+
+export interface GetAikuResponseImageData {
+  id:         number;
+  attributes: GetAikuResponseAttributes;
+}
+
+export interface GetAikuResponseAttributes {
+  name:              string;
+  alternativeText:   null;
+  caption:           null;
+  width:             number;
+  height:            number;
+  formats:           GetAikuResponseFormats;
+  hash:              string;
+  ext:               string;
+  mime:              string;
+  size:              number;
+  url:               string;
+  previewUrl:        null;
+  provider:          string;
+  provider_metadata: null;
+  createdAt:         string;
+  updatedAt:         string;
+}
+
+export interface GetAikuResponseFormats {
+  thumbnail: GetAikuResponseMedium;
+  small:     GetAikuResponseMedium;
+  medium:    GetAikuResponseMedium;
+}
+
+export interface GetAikuResponseMedium {
+  name:   string;
+  hash:   string;
+  ext:    string;
+  mime:   string;
+  path:   null;
+  width:  number;
+  height: number;
+  size:   number;
+  url:    string;
+}
+
+export interface GetAikuResponsePreset {
+  data: GetAikuResponsePresetData;
+}
+
+export interface GetAikuResponsePresetData {
+  id:         number;
+  attributes: GetAikuResponseAttributes;
+}
+
+export interface GetAikuResponseAttributes {
+  name:        string;
+  value:       string;
+  createdAt:   string;
+  updatedAt:   string;
+  publishedAt: string;
+  isDefault:   null;
+}
+
+export interface GetAikuResponseMeta {
 }

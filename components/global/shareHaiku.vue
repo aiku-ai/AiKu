@@ -1,22 +1,12 @@
 <template>
   <div class="relative h-[80vh] shadow-2xl shadow-violet-600/50">
     <div class="absolute -top-8 right-0 flex items-center justify-between w-full">
-      <div>
-        <fieldset>
-          <div class="mt-1 flex items-center space-x-2 ">
-            <label :class="textColor === 'text-white' ? 'ring-1':''" class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-white">
-              <input v-model="textColor" type="radio" name="color-choice-white" value="text-white" class="sr-only" aria-labelledby="color-choice-white">
-              <span id="color-choice-white" class="sr-only">White</span>
-              <span aria-hidden="true" class="h-4 w-4 bg-white border border-black border-opacity-10 rounded-full"></span>
-            </label>
-            <label :class="textColor === 'text-black' ? 'ring-1':''" class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-black">
-              <input v-model="textColor" type="radio" name="color-choice-black" value="text-black" class="sr-only" aria-labelledby="color-choice-black">
-              <span id="color-choice-black" class="sr-only">Black</span>
-              <span aria-hidden="true" class="h-4 w-4 bg-black border border-black border-opacity-10 rounded-full"></span>
-            </label>
-          </div>
-        </fieldset>
-      </div>
+      <button @click="copyLink(`${config.public.baseUrl}/${haiku.strapiAikuId}`)" type="button" class="inline-flex items-center focus:outline-none text-xs dark:text-zinc-100 text-zinc-800">
+        Copy Link 
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-6 h-6 dark:text-zinc-100 text-zinc-800">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+        </svg>
+      </button>
       <button @click="haiku.showOverlay = false" type="button" class="inline-flex items-center focus:outline-none text-xs dark:text-zinc-100 text-zinc-800">
         Close 
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-6 h-6 dark:text-zinc-100 text-zinc-800">
@@ -28,10 +18,10 @@
       :src="haiku.imgUrl" 
       class="lg:absolute inset-0 w-full h-full object-cover object-center rounded-lg"
     >
-    <div class="absolute bottom-3 left-3">
-      <p :class="textColor" class="font-bold text-lg">{{ haiku.lineOne }}</p> 
-      <p :class="textColor" class="font-bold text-lg">{{ haiku.lineTwo }}</p> 
-      <p :class="textColor" class="font-bold text-lg">{{ haiku.lineThree }}</p> 
+    <div class="absolute bottom-4 left-4 bg-black opacity-50 rounded-lg p-4">
+      <p class="font-bold text-lg text-white">{{ haiku.lineOne }}</p> 
+      <p class="font-bold text-lg text-white">{{ haiku.lineTwo }}</p> 
+      <p class="font-bold text-lg text-white">{{ haiku.lineThree }}</p> 
       <p class="mt-2 font-base text-zinc-200">aiku.app</p>
     </div>
   </div>
@@ -40,8 +30,22 @@
 <script setup lang="ts">
 import { useHaikuStore } from '~/stores/haiku'
 
+const config = useRuntimeConfig()
+
 const haiku = useHaikuStore()
 
-const textColor = ref<string>("text-white")
+const isCopied = ref<boolean>()
+// SHARE
+const copyLink = (url: string) => {
+  try {
+    navigator.clipboard.writeText(url);
+    isCopied.value = true;
+    setTimeout(() => {
+      isCopied.value = false;
+    }, 5000);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 </script>
