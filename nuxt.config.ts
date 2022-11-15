@@ -3,7 +3,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     repApiKey: '',
     strapiToken: '',
-    strapiApi: ''
+    strapiBase: '',
+    public: {
+      baseUrl: ''
+    }
   },
   modules: [
     '@nuxtjs/tailwindcss',

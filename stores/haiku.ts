@@ -6,6 +6,7 @@ export const useHaikuStore = defineStore('haikuStore', () => {
   const lineThree = ref<string>("Lightspeed traveler")
   const imgUrl = ref<string>("")
   const showOverlay = ref(false)
+  const strapiAikuId = ref<number>()
 
 
   return {
@@ -13,6 +14,7 @@ export const useHaikuStore = defineStore('haikuStore', () => {
     lineTwo,
     lineThree,
     imgUrl,
-    showOverlay
+    showOverlay,
+    strapiAikuId
   }
 })

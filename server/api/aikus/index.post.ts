@@ -5,7 +5,7 @@ import { ImageResponse, CreateAikuResponse } from '~/models/strapi'
 
 const config = useRuntimeConfig()
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event):Promise<number> => {
   const body = await useValidatedBody(event, z.object({
     lineOne: z.string(),
     lineTwo: z.string(),
@@ -17,11 +17,10 @@ export default defineEventHandler(async (event) => {
   try {
     const aikuId = await uploadAiku(body.lineOne, body.lineTwo, body.lineThree, body.presetId)
     await uploadImage(body.imgUrl, aikuId)
+    return aikuId
   } catch(error) {
     console.log(error)
   }
-
-  return event.res.end()
 })
 
 const uploadAiku = async (
@@ -30,7 +29,7 @@ const uploadAiku = async (
   lineThree:string,
   preset?:number
 ):Promise<number> => {
-  const response = await $fetch<CreateAikuResponse>(`${config.strapiApi}/aikus`, {
+  const response = await $fetch<CreateAikuResponse>(`${config.strapiBase}/api/aikus`, {
     method: "POST",
     headers: {
       "Authorization": `bearer ${config.strapiToken}`,
@@ -58,7 +57,7 @@ const uploadImage = async (imgUrl:string, aikuId:number):Promise<ImageResponse> 
   form.append("refId", aikuId)
   form.append("field", "image")
 
-  const response = await $fetch<ImageResponse>(`${config.strapiApi}/upload`, {
+  const response = await $fetch<ImageResponse>(`${config.strapiBase}/api/upload`, {
     method: "POST",
     headers: {
       "Authorization": `bearer ${config.strapiToken}`,

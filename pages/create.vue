@@ -97,6 +97,17 @@
             </svg>
             Share 
           </button>
+          <button 
+            v-if="!submitLoading && predictionImgUrl"
+            @click="copyLink(`${config.public.baseUrl}/${strapiAikuId}`)" 
+            type="button" 
+            class="hidden lg:inline-flex w-full justify-center items-center rounded-md border border-transparent bg-violet-600 px-8 py-3 text-base font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-1 mr-3 h-5 w-5 lg:h-6 lg:w-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+            </svg>
+            Copy Link 
+          </button>
         </div>
 
         <div class="mt-5 relative">
@@ -132,11 +143,19 @@
     </div> 
 
     <div class="lg:relative">
-      <img v-if="predictionImgUrl && !submitLoading" :src="predictionImgUrl" alt="" class="lg:absolute inset-0 w-full h-[26rem] lg:h-full object-cover object-center rounded-lg">
-      <!-- <img v-if="predictionImgUrl && !submitLoading"  -->
-      <!--   src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png"   -->
-      <!--   class="lg:absolute inset-0 w-full h-[26rem] lg:h-full object-cover object-center rounded-lg" -->
-      <!-- > -->
+      <div v-if="predictionImgUrl && !submitLoading">
+        <img :src="predictionImgUrl" alt="" class="lg:absolute inset-0 w-full h-[26rem] lg:h-full object-cover object-center rounded-lg">
+        <!-- <img   -->
+        <!--   src="https://replicate.delivery/pbxt/ygtueiTM5A1HIK9YGmNsp81h2l1gRb9FEBfJXsJgzEQ9ld8PA/out-0.png"   -->
+        <!--   class="lg:absolute inset-0 w-full h-[26rem] lg:h-full object-cover object-center rounded-lg" -->
+        <!-- > -->
+        <div class="hidden lg:block absolute bottom-4 left-4 bg-black opacity-50 p-4 rounded-lg">
+          <p class="font-bold text-lg text-white">{{ lineOne }}</p> 
+          <p class="font-bold text-lg text-white">{{ lineTwo }}</p> 
+          <p class="font-bold text-lg text-white">{{ lineThree }}</p> 
+          <p class="mt-2 font-base text-zinc-200">aiku.app</p>
+        </div>
+      </div>
       <div v-else :class="submitLoading ? 'animate-pulse':''" class="lg:absolute inset-0 px-3 w-full h-[26rem] lg:h-full border border-zinc-500 rounded-lg flex items-center justify-center text-zinc-500 text-sm">
         <div v-if="!submitLoading && !diffusionError" class="text-center">
           <p>Create your masterpiece and the art will show up here</p>
@@ -166,8 +185,9 @@
 <script setup lang="ts">
 import { syllable } from 'syllable'
 import { PredictionResponse, DiffusionPresets} from "~/models/replicate"
-import { Presets } from "~/models/strapi"
 import { useHaikuStore } from '~/stores/haiku'
+
+const config = useRuntimeConfig()
 
 const haiku = useHaikuStore()
 
@@ -220,6 +240,7 @@ const loadingStatus = ref<string>()
 const predictionResult = ref<PredictionResponse>()
 const predictionId = ref<string>()
 const predictionImgUrl = ref<string>()
+const strapiAikuId = ref<number>()
 
 // SD Configuration
 const selectedPreset = ref()
@@ -257,7 +278,7 @@ const submitHaiku = async () => {
 
 const saveAiku = async () => {
   try {
-    await useFetch("/api/aikus", {
+    const { data } = await useFetch("/api/aikus", {
       method: "POST", 
       key: Date.now().toString(),
       body: {
@@ -268,6 +289,8 @@ const saveAiku = async () => {
         presetId: presetId.value
       }
     })
+    strapiAikuId.value = data.value
+    haiku.strapiAikuId = strapiAikuId.value
   } catch(error) {
     console.log(error)
   }
@@ -354,4 +377,18 @@ const presetId = computed(() => {
   return null
 })
 
+
+const isCopied = ref<boolean>()
+// SHARE
+const copyLink = (url: string) => {
+  try {
+    navigator.clipboard.writeText(url);
+    isCopied.value = true;
+    setTimeout(() => {
+      isCopied.value = false;
+    }, 5000);
+  } catch (e) {
+    console.log(e);
+  }
+};
 </script>
