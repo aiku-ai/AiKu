@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  aiku:
+    image: aiku
+    container_name: aiku
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        NUXT_REP_API_KEY: ${NUXT_REP_API_KEY}
+        NUXT_STRAPI_TOKEN: ${NUXT_STRAPI_TOKEN}
+        NUXT_STRAPI_BASE: ${NUXT_STRAPI_BASE}
+        NUXT_PUBLIC_BASE_URL: ${NUXT_PUBLIC_BASE_URL}
+    environment:
+      NUXT_REP_API_KEY: ${NUXT_REP_API_KEY}
+      NUXT_STRAPI_TOKEN: ${NUXT_STRAPI_TOKEN}
+      NUXT_STRAPI_BASE: ${NUXT_STRAPI_BASE}
+      NUXT_PUBLIC_BASE_URL: ${NUXT_PUBLIC_BASE_URL}
+    ports:
+      - 80:3000
