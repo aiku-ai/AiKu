@@ -55,6 +55,7 @@
           <div class="mt-6">
             <form
               @submit.prevent="signIn()"
+              @keyup.enter.prevent="signIn()"
               class="space-y-6"
             >
               <div>
@@ -109,6 +110,6 @@ const signIn = async() => {
     useNoti(NotificationType.error, 'Uh oh', error.message)
     return
   }
-  navigateTo("/")
+  navigateTo("/browse")
 }
 </script>
