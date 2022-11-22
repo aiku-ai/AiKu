@@ -2,6 +2,7 @@
   <div>
     <NuxtLayout>
       <NuxtPage />
+      <Notification />
     </NuxtLayout>
   </div>
 </template>

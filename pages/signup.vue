@@ -86,6 +86,8 @@
 </template>
 
 <script setup lang="ts">
+import { NotificationType } from "~/stores/notification"
+
 const client = useSupabaseClient()
 const user = useSupabaseUser()
 
@@ -97,12 +99,13 @@ const signUp = async() => {
     email: email.value,
     password: password.value
   })
-  console.log(data)
-  console.log(error)
-}
 
-if(user.value) {
-  navigateTo("/")
+  if(error) {
+    useNoti(NotificationType.error, 'Uh oh', error.message)
+    return
+  }
+
+  console.log(data)
 }
 
 </script>

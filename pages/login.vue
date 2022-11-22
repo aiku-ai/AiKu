@@ -71,14 +71,13 @@
                 </div>
               </div>
 
-              <div class="flex items-center justify-between">
-                <div class="text-sm">
-                  <a href="#" class="font-medium dark:text-violet-500 text-violet-600 hover:text-violet-500">Forgot your password?</a>
-                </div>
-              </div>
-
               <div>
-                <button type="submit" class="flex w-full justify-center rounded-md border border-transparent bg-violet-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300">Sign in</button>
+                <NuxtLink href="#" class="text-sm font-medium dark:text-violet-500 text-violet-600 hover:text-violet-500">Forgot your password?</NuxtLink>
+                <button type="submit" class="mt-2 flex w-full justify-center rounded-md border border-transparent bg-violet-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300">Sign in</button>
+                <div v-if="!email && !password" class="mt-6">
+                  <p class="text-sm font-medium dark:text-violet-500 text-violet-600 hover:text-violet-500">Need an account?</p>
+                  <NuxtLink to="/signup" class="mt-2 flex w-full justify-center rounded-md border border-transparent bg-violet-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300">Sign up</NuxtLink>
+                </div>
               </div>
             </form>
           </div>
@@ -92,10 +91,13 @@
 </template>
 
 <script setup lang="ts">
+import { NotificationType } from "~/stores/notification"
+
 const client = useSupabaseClient()
 
 const email = ref('')
 const password = ref('')
+
 
 const signIn = async() => {
   const { data, error } = await client.auth.signInWithPassword({
@@ -104,7 +106,7 @@ const signIn = async() => {
   })
 
   if(error) {
-    console.log(error)
+    useNoti(NotificationType.error, 'Uh oh', error.message)
     return
   }
   navigateTo("/")
