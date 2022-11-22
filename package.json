@@ -8,6 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/supabase": "^0.2.5",
     "@nuxtjs/tailwindcss": "^6.1.2",
     "nuxt": "3.0.0-rc.12"
   },

@@ -18,3 +18,17 @@
     </main>
   </div>
 </template>
+
+<script>
+// const user = useSupabaseUser()
+//
+// onMounted(() => {
+//   watchEffect(() => {
+//     if(user.value) {
+//       console.log(user.value)
+//     }
+//   })
+// })
+
+
+</script>

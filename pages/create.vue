@@ -1,5 +1,5 @@
 <template>
-  <div class="grid lg:grid-cols-2 gap-4 px-4 py-4 lg:py-4 w-full lg:h-screen">
+  <div class="grid lg:grid-cols-2 gap-4 px-4 py-4 lg:py-4 w-full lg:h-[93vh]">
     <div class="lg:flex items-center justify-center">
       <div class="w-full lg:max-w-md">
         <div class="space-y-3">
