@@ -3,7 +3,7 @@ import { PredictionResponse, DiffusionPresets } from '~/models/replicate'
 
 const config = useRuntimeConfig()
 
-export default defineEventHandler(async (event):Promise<PredictionResponse> => {
+export default defineEventHandler(async (event): Promise<PredictionResponse> => {
   const body = await useValidatedBody(event, z.object({
     prompt: z.string(),
     preset: z.string().optional().nullable(),
@@ -17,19 +17,20 @@ export default defineEventHandler(async (event):Promise<PredictionResponse> => {
       "Content-Type": "application/json"
     },
     body: {
-      "version": "c24bbf13332c755f9e1c8b3f10c7f438889145def57d554a74ea751dc5e3b509",
+      "version": config.sdVersion,
       "input": {
         "prompt": body.prompt + ',' + body.preset,
+        "negative_prompt": "duplicate, disfiguration",
         "width": 768,
         "height": 896,
         "prompt_strength": body.promptStrength,
         "num_outputs": 1,
-        "num_interference_steps": 50,
-        "guidance_scale": 7.5
+        "num_interference_steps": 300,
+        "guidance_scale": 15
       }
     }
   })
-  
+
   return response
 })
 
