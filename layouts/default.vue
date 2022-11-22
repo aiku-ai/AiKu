@@ -24,10 +24,10 @@
             <div class="flex flex-shrink-0 items-center">
               <!-- <img class="block h-8 w-auto lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=600" alt="Your Company"> -->
               <!-- <img class="hidden h-8 w-auto lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=600" alt="Your Company"> -->
-              <p class="text-black dark:text-zinc-100 text-zinc-900">AiKu</p>
+              <NuxtLink to="/" class="text-black dark:text-zinc-100 text-zinc-900">AiKu</NuxtLink>
             </div>
             <div class="hidden sm:-my-px sm:ml-16 sm:flex sm:space-x-8">
-              <NuxtLink to="/" :class="curPath === '/' ? 'border-violet-500 dark:text-zinc-100 text-zinc-900':'text-zinc-500'" class="border-transparent dark:text-zinc-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" aria-current="page">Browse</NuxtLink>
+              <NuxtLink to="/browse" :class="curPath === '/browse' ? 'border-violet-500 dark:text-zinc-100 text-zinc-900':'text-zinc-500'" class="border-transparent dark:text-zinc-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" aria-current="page">Browse</NuxtLink>
               <NuxtLink to="/create" :class="curPath === '/create' ? 'border-violet-500 dark:text-zinc-100 text-zinc-900':'text-zinc-500'" class="border-transparent dark:text-zinc-200 text-zinc-500 hover:border-zinc-300 hover:text-zinc-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Create</NuxtLink>
               <NuxtLink v-if="user" to="/my-stuff" :class="curPath === '/my-stuff' ? 'border-violet-500 dark:text-zinc-100 text-zinc-900':' text-zinc-500'" class="border-transparent dark:text-zinc-200 text-zinc-500 hover:border-zinc-300 hover:text-zinc-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">My stuff</NuxtLink>
             </div>
@@ -89,7 +89,7 @@
       <!-- Mobile menu, show/hide based on menu state. -->
       <div v-if="showMobileNav" class="sm:hidden" id="mobile-menu">
         <div class="space-y-1 pt-2 pb-3">
-          <NuxtLink to="/" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium" aria-current="page">Browse</NuxtLink>
+          <NuxtLink to="/browse" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium" aria-current="page">Browse</NuxtLink>
           <NuxtLink to="/create" :class="curPath === '/create' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium" aria-current="page">Create</NuxtLink>
           <NuxtLink v-if="user" to="/" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium" aria-current="page">My stuff</NuxtLink>
         </div>

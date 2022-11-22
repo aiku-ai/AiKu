@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-[80vh] lg:h-screen">
-    <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+  <div class="flex h-[80vh] lg:h-[93.5vh]">
+    <div class="flex flex-1 flex-col justify-center pb-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <!-- <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=600" alt="Your Company"> -->
@@ -92,10 +92,6 @@
 
 <script setup lang="ts">
 import { NotificationType } from "~/stores/notification"
-
-definePageMeta({
-  middleware: 'auth'
-})
 
 const client = useSupabaseClient()
 
