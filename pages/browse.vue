@@ -253,4 +253,23 @@ function copyToClipboard(showNoti: boolean) {
     useNoti("success", "Copied", "Link to AiKu copied to your clipboard 😎.")
   }
 }
+
+useHead({
+  title: 'Browse AiKus',
+  meta: [
+    // PRIMARY TAGS
+    { hid: 'description', name: 'description', content: 'Browse art created by AI based on user generated Haikus.' },
+    { hid: 'title', name: 'title', content: 'Browse AiKus' },
+    // OPEN GRAPH/FACEBOOK
+    { hid: 'og:type', property: 'og:type', content: 'website' },
+    { hid: 'og:url', property: 'og:url', content: config.public.baseUrl },
+    { hid: 'og:title', property: 'og:title', content: 'Browse AiKus' },
+    { hid: 'og:image', property: 'og:image', content: config.public.baseUrl + '/aiku_card.png' },
+    // TWITTER
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Browse AiKus' },
+    { name: 'twitter:description', content: 'Browse art created by AI based on user generated Haikus.' },
+    { name: 'twitter:image', content: config.public.baseUrl + '/aiku_card.png' }
+  ]
+})
 </script>

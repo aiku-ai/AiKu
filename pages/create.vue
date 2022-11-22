@@ -55,6 +55,7 @@ import {
 } from '../keySymbols'
 
 const user = useSupabaseUser()
+const config = useRuntimeConfig()
 
 // VARS
 const aikuLineOne = ref('')
@@ -222,4 +223,23 @@ const fetchPrediction = async () => {
     fetchPrediction()
   }, 5000)
 }
+
+useHead({
+  title: 'Create AiKus',
+  meta: [
+    // PRIMARY TAGS
+    { hid: 'description', name: 'description', content: 'Write haikus and generate art to go along with it.' },
+    { hid: 'title', name: 'title', content: 'Create AiKus' },
+    // OPEN GRAPH/FACEBOOK
+    { hid: 'og:type', property: 'og:type', content: 'website' },
+    { hid: 'og:url', property: 'og:url', content: config.public.baseUrl },
+    { hid: 'og:title', property: 'og:title', content: 'Create AiKus' },
+    { hid: 'og:image', property: 'og:image', content: config.public.baseUrl + '/aiku_card.png' },
+    // TWITTER
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Create AiKus' },
+    { name: 'twitter:description', content: 'Write haikus and generate art to go along with it.' },
+    { name: 'twitter:image', content: config.public.baseUrl + '/aiku_card.png' }
+  ]
+})
 </script>
