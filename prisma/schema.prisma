@@ -13,16 +13,16 @@ model aiku {
   lineOne   String
   lineTwo   String
   lineThree String
-  presetId  BigInt?
+  presetId  Int?     @db.SmallInt
   userId    String   @db.Uuid
   sdUrl     String   @db.VarChar
   preset    preset?  @relation(fields: [presetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model preset {
-  id        BigInt  @id @default(autoincrement())
+  id        Int     @id @default(autoincrement()) @db.SmallInt
   name      String  @db.VarChar
-  value     String
+  value     String?
   isDefault Boolean
   aiku      aiku[]
 }

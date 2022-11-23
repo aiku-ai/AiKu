@@ -28,7 +28,8 @@ export default defineEventHandler(async (event) => {
       lineTwo: body.lineTwo,
       lineThree: body.lineThree,
       userId: user.id,
-      sdUrl: body.sdUrl
+      sdUrl: body.sdUrl,
+      presetId: body.presetId
     }
   })
 

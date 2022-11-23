@@ -286,7 +286,8 @@ const saveAiku = async () => {
         sdUrl: predictionImgUrl.value,
         lineOne: lineOne.value,
         lineTwo: lineTwo.value,
-        lineThree: lineThree.value
+        lineThree: lineThree.value,
+        presetId: presetId.value
       },
       headers: useRequestHeaders(['cookie'])
     })
@@ -350,10 +351,10 @@ const { data: presetsResp, error: presetsError } = await useFetch("/api/presets"
 
 // if there is not an error then we set the presets array from API data
 if (!presetsError.value) {
-  for (const preset of presetsResp.value.data) {
-    presets.value.set(preset.attributes.name, preset.attributes.value) 
-    if(preset.attributes.isDefault) {
-      selectedPreset.value = preset.attributes.name
+  for (const preset of presetsResp.value) {
+    presets.value.set(preset.name, preset.value) 
+    if(preset.isDefault) {
+      selectedPreset.value = preset.name
     }
   }
 }
@@ -371,7 +372,7 @@ if (presetsError.value) {
 }
 
 const presetId = computed(() => {
-  const matching = presetsResp.value.data.filter(p => p.attributes.name === selectedPreset.value)
+  const matching = presetsResp.value.filter(p => p.name === selectedPreset.value)
   if(matching.length > 0) {
     return matching[0].id
   }

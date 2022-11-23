@@ -140,7 +140,7 @@ const curPath = computed(() => {
 
 const haiku = useHaikuStore()
 
-const isDark = ref(false)
+const isDark = ref(true)
 const showNav = ref(true)
 
 const showProfileDropdown = ref(false)
