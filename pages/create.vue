@@ -187,6 +187,7 @@ import { syllable } from 'syllable'
 import { PredictionResponse, DiffusionPresets} from "~/models/replicate"
 import { useHaikuStore } from '~/stores/haiku'
 
+const user = useSupabaseUser()
 const config = useRuntimeConfig()
 
 const haiku = useHaikuStore()
@@ -278,19 +279,17 @@ const submitHaiku = async () => {
 
 const saveAiku = async () => {
   try {
-    const { data } = await useFetch("/api/aikus", {
+    const { data } = await useFetch("/api/v2/aikus", {
       method: "POST", 
       key: Date.now().toString(),
       body: {
-        imgUrl: predictionImgUrl.value,
+        sdUrl: predictionImgUrl.value,
         lineOne: lineOne.value,
         lineTwo: lineTwo.value,
-        lineThree: lineThree.value,
-        presetId: presetId.value
-      }
+        lineThree: lineThree.value
+      },
+      headers: useRequestHeaders(['cookie'])
     })
-    strapiAikuId.value = data.value
-    haiku.strapiAikuId = strapiAikuId.value
   } catch(error) {
     console.log(error)
   }
@@ -320,8 +319,10 @@ const fetchPrediction = async () => {
       haiku.imgUrl = data.value.output[0]
       predictionImgUrl.value = data.value.output[0] 
       
-      // saveAiku to strapeezy
-      await saveAiku()
+      // saveAiku if user is logged in
+      if(user) {
+        await saveAiku()
+      }
 
       submitLoading.value = false
       return

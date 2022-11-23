@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model aiku {
+  id        BigInt   @id @default(autoincrement())
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  lineOne   String
+  lineTwo   String
+  lineThree String
+  presetId  BigInt?
+  userId    String   @db.Uuid
+  sdUrl     String   @db.VarChar
+  preset    preset?  @relation(fields: [presetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model preset {
+  id        BigInt  @id @default(autoincrement())
+  name      String  @db.VarChar
+  value     String
+  isDefault Boolean
+  aiku      aiku[]
+}
