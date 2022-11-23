@@ -8,7 +8,6 @@ datasource db {
 }
 
 model aiku {
-  id        BigInt   @id @default(autoincrement())
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   lineOne   String
   lineTwo   String
@@ -16,6 +15,7 @@ model aiku {
   presetId  Int?     @db.SmallInt
   userId    String   @db.Uuid
   sdUrl     String   @db.VarChar
+  id        String   @id @db.Uuid
   preset    preset?  @relation(fields: [presetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 

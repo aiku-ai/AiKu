@@ -1,12 +1,15 @@
 import { useValidatedBody, z } from 'h3-zod'
 import { PrismaClient } from '@prisma/client'
 import { serverSupabaseUser } from '#supabase/server'
-// import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 // import { FormData } from 'formdata-node'
 
 const prisma = new PrismaClient()
 const config = useRuntimeConfig()
 
+/**
+ * Create a Aiku.
+**/
 export default defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event)
   if (!user) {
@@ -23,6 +26,7 @@ export default defineEventHandler(async (event) => {
   
   await prisma.aiku.create({
     data: {
+      id: uuidv4(),
       createdAt: new Date(),
       lineOne: body.lineOne,
       lineTwo: body.lineTwo,
