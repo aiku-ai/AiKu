@@ -104,7 +104,7 @@ const nextPageCursor = ref('')
 const orderDir = ref('desc')
 const pageNum = ref(1)
 const leadingPageNum = ref(1)
-const pageSize = ref(4)
+const pageSize = ref(8)
 
 // determines if were at the end of the list
 const totalRecBrowsed = computed(() => {
