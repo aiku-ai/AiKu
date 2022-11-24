@@ -7,13 +7,21 @@ import { aiku } from '../../../../node_modules/.prisma/client/index'
 
 const prisma = new PrismaClient()
 
-type GetAikusByUserResp = {
+export type GetAikusByUserResp = {
   data: aiku[],
   meta: Meta
 }
 
 type Meta = {
   totalCount: number
+}
+
+
+type Query = {
+  cursor?: string,
+  orderDir?: "asc" | "desc",
+  pageNum?: string,
+  pageSize?: string
 }
 
 /**
@@ -25,10 +33,11 @@ export default defineEventHandler(async (event):Promise<GetAikusByUserResp> => {
     throw createError({ statusCode: 401, message: 'Unauthorized' })
   }
 
-  const query = useValidatedQuery(event, z.object({
+  const query:Query = useValidatedQuery(event, z.object({
     cursor: z.string(),
     orderDir: z.enum(["asc", "desc"]),
-    pageNum: z.string()
+    pageNum: z.string(),
+    pageSize: z.string()
   }))
 
   console.log(query)
@@ -53,29 +62,29 @@ export default defineEventHandler(async (event):Promise<GetAikusByUserResp> => {
 
 })
 
-const getAikusAsync = async(query, user:User):Promise<aiku[]> => {
+const getAikusAsync = async(query:Query, user:User):Promise<aiku[]> => {
   return await prisma.aiku.findMany({
     orderBy: [
       {
         createdAt: query.orderDir
       }
     ],
-    take: 4,
+    take: parseInt(query.pageSize),
     where: {
       userId: user.id
     }
   }) 
 }
 
-const getAikusCursorAsync = async(query, user:User):Promise<aiku[]> => {
+const getAikusCursorAsync = async(query:Query, user:User):Promise<aiku[]> => {
   return await prisma.aiku.findMany({
     orderBy: [
       {
         createdAt: query.orderDir
       }
     ],
-    take: 4,
-    skip: parseInt(query.pageNum) - 1,
+    take: parseInt(query.pageSize),
+    skip: 1, // always skip one to avoid the cursor, more here: https://www.prisma.io/docs/concepts/components/prisma-client/pagination#do-i-always-have-to-skip-1
     cursor: {
       id: query.cursor
     },

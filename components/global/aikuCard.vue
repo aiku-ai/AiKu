@@ -9,9 +9,6 @@
       <p class="font-bold text-white">{{ props.fields.lineTwo }}</p> 
       <p class="font-bold text-white">{{ props.fields.lineThree }}</p> 
     </div>
-    <!-- <div class="absolute top-0 text-white"> -->
-    <!--   {{ fields.id }} -->
-    <!-- </div> -->
   </div>
 </template>
 

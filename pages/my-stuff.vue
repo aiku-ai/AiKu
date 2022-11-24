@@ -54,8 +54,8 @@
         >
           <div v-if="showSortDropdown" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md dark:bg-zinc-800 bg-white shadow-lg ring-1 dark:ring-white/5 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="py-1" role="none">
-              <button @click="cursor = null, prevPageCursorStart = null, pageNum = 1, orderDir = 'desc', showSortDropdown = false" type="button" :class="orderDir === 'desc' ? 'dark:bg-zinc-900 bg-zinc-200':''" class="text-left w-full dark:text-zinc-300 text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Most recent</button>
-              <button @click="cursor = null, prevPageCursorStart = null, pageNum = 1, orderDir = 'asc', showSortDropdown = false" type="button" :class="orderDir === 'asc' ? 'dark:bg-zinc-900 bg-zinc-200':''" class="text-left w-full dark:text-zinc-300 text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Oldest</button>
+              <button @click="cursor = null, pageNum = 1, leadingPageNum = 1, orderDir = 'desc', aikusLoaded = [], showSortDropdown = false" type="button" :class="orderDir === 'desc' ? 'dark:bg-zinc-900 bg-zinc-200':''" class="text-left w-full dark:text-zinc-300 text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Most recent</button>
+              <button @click="cursor = null, pageNum = 1, leadingPageNum = 1, orderDir = 'asc', aikusLoaded = [], showSortDropdown = false" type="button" :class="orderDir === 'asc' ? 'dark:bg-zinc-900 bg-zinc-200':''" class="text-left w-full dark:text-zinc-300 text-zinc-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Oldest</button>
             </div>
           </div>
         </transition>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="mt-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 ">
-      <AikuCard v-for="aiku in aikus.data" :key="aiku.id.toString()" :fields="aiku"/>
+      <AikuCard v-for="aiku in aikusToRender" :key="aiku.id.toString()" :fields="aiku"/>
     </div>
 
     <nav class="mt-2 flex items-center justify-between py-3" aria-label="Pagination">
@@ -73,16 +73,16 @@
           Showing
           <span class="font-medium">{{ pageNum === 1 ? 1:(pageNum - 1) * pageSize }}</span>
           to
-          <span class="font-medium">{{ ((pageNum -1) * pageSize) + pageSize }}</span>
+          <span class="font-medium">{{ isLastPage ?  aikus.meta.totalCount:((pageNum -1) * pageSize) + pageSize }}</span>
           of
           <span class="font-medium">{{ aikus.meta.totalCount }}</span>
           results
         </p>
       </div>
       <div class="flex flex-1 justify-between sm:justify-end">
-        <button @click="pageNum--, cursor = prevPageCursorStart" v-if="pageNum !== 1" type="button" class="relative inline-flex items-center rounded-md border border-zinc-300 dark:bg-zinc-800 px-4 py-2 text-sm font-medium dark:text-zinc-300 text-zinc-700 hover:bg-zinc-50 transition-hover-300">Previous</button>
+        <button @click="pagePrev()" v-if="pageNum !== 1" type="button" class="relative inline-flex items-center rounded-md border border-zinc-300 dark:bg-zinc-800 px-4 py-2 text-sm font-medium dark:text-zinc-300 text-zinc-700 hover:bg-zinc-50 transition-hover-300">Previous</button>
         <button v-else disabled type="button" class="relative inline-flex items-center rounded-md border dark:border-zinc-700 border-zinc-300 dark:bg-zinc-800 px-4 py-2 text-sm font-medium dark:text-zinc-600 text-zinc-400">Previous</button>
-        <button v-if="totalRecBrowsed !== aikus.meta.totalCount" @click="pageNum++, cursor = nextPageCursorStart" type="button" class="relative ml-3 inline-flex items-center rounded-md border border-zinc-300 dark:bg-zinc-800 px-4 py-2 text-sm font-medium dark:text-zinc-300 text-zinc-700 hover:bg-zinc-50 transition-hover-300">Next</button>
+        <button v-if="!isLastPage" @click="pageNext()" type="button" class="relative ml-3 inline-flex items-center rounded-md border border-zinc-300 dark:bg-zinc-800 px-4 py-2 text-sm font-medium dark:text-zinc-300 text-zinc-700 hover:bg-zinc-50 transition-hover-300">Next</button>
         <button v-else disabled type="button" class="relative ml-3 inline-flex items-center rounded-md border dark:border-zinc-700 border-zinc-300 dark:bg-zinc-800 px-4 py-2 text-sm font-medium dark:text-zinc-600 text-zinc-400">Next</button>
       </div>
     </nav>
@@ -100,15 +100,31 @@ const user = useSupabaseUser()
 
 const showSortDropdown = ref(false)
 const cursor = ref('')
-const nextPageCursorStart = ref('')
-const prevPageCursorStart = ref('')
+const nextPageCursor = ref('')
 const orderDir = ref('desc')
 const pageNum = ref(1)
-const pageSize = 4
+const leadingPageNum = ref(1)
+const pageSize = ref(4)
+
+// determines if were at the end of the list
 const totalRecBrowsed = computed(() => {
   // total records browsed is pageNum times page size
-  return pageNum.value * pageSize
+  return pageNum.value * pageSize.value
 })
+
+const isLastPage = computed(() => {
+  return totalRecBrowsed.value >= aikus.value.meta.totalCount
+})
+
+/*
+  This will hold all of our Aikus.
+  As people paginate, we will just add to this array
+  That way on previous navigations, we don't have to hit
+  our DB again.
+*/
+const aikusLoaded = ref([])
+// this will hold all aikus that should be visible in the frame
+const aikusToRender = ref([])
 
 const { data: aikus, error } = await useAsyncData(
   Date.now().toString() + orderDir.value + cursor.value,
@@ -116,22 +132,78 @@ const { data: aikus, error } = await useAsyncData(
     query: {
       cursor: cursor.value,
       orderDir: orderDir.value,
-      pageNum: pageNum.value
+      pageNum: pageNum.value,
+      pageSize: pageSize.value
     },
     headers: useRequestHeaders(['cookie']),
   }),
-  { watch: [orderDir, pageNum] },
+  { watch: [orderDir, leadingPageNum] },
 );
 
 if(error.value) {
   console.log(error)
 }
 
+/**
+  This method is called on initial load or change of Aikus.
+
+  Purpose:
+    1. Add to array of loaded Aikus (for caching)
+    2. Set the cursor value for the Next page
+    3. Update the array of Aikus that should be currently rendered
+**/
+const onAikuLoad = () => {
+  aikusLoaded.value = aikusLoaded.value.concat(aikus.value.data)
+  // get the ID of the LAST item in the array
+  nextPageCursor.value = aikus.value.data[aikus.value.data.length - 1].id
+
+  aikusToRender.value = aikus.value.data
+}
+
+if(aikus.value) {
+  onAikuLoad()
+}
+
 watch(aikus, () => {
-  nextPageCursorStart.value = aikus.value.data[aikus.value.data.length - 1].id
-  if(!prevPageCursorStart.value) {
-    prevPageCursorStart.value = aikus.value.data[0].id
-  }
+  onAikuLoad()
 })
+
+const pageNext = () => {
+  // if our current page is equal to leading,
+  // it means the next button needs fetch more, so we will
+  // increment which will trigger API with watch
+  if(pageNum.value === leadingPageNum.value) {
+    // set the current cursor equal to the next cursor value
+    // this means that when the API is called, the cursor it's using
+    // is the cursor marking the end of the current page
+    cursor.value = nextPageCursor.value
+    leadingPageNum.value++
+    pageNum.value++ 
+    return
+  }
+
+  // if we're not on the leading page, then we just have to re-render
+  pageNum.value++ 
+  sliceRenderedAikus()
+}
+
+const pagePrev = () => {
+  // for prev, we always just need to re-render, never refetch
+  pageNum.value-- 
+  sliceRenderedAikus()
+}
+
+/**
+  The purpose of this function is to determine which aikus to render
+  on the page based on the users position in the pages. 
+  This saves enormous load on our server
+**/
+const sliceRenderedAikus = () => {
+  const sliceStart = (pageNum.value * pageSize.value) - pageSize.value
+  const sliceEnd = (pageNum.value * pageSize.value)
+
+  // we need to slice from the loaded aikus
+  aikusToRender.value = aikusLoaded.value.slice(sliceStart, sliceEnd)
+}
 
 </script>
