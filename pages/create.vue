@@ -187,6 +187,7 @@ import { syllable } from 'syllable'
 import { PredictionResponse, DiffusionPresets} from "~/models/replicate"
 import { useHaikuStore } from '~/stores/haiku'
 
+const user = useSupabaseUser()
 const config = useRuntimeConfig()
 
 const haiku = useHaikuStore()
@@ -278,19 +279,18 @@ const submitHaiku = async () => {
 
 const saveAiku = async () => {
   try {
-    const { data } = await useFetch("/api/aikus", {
+    const { data } = await useFetch("/api/v2/aikus", {
       method: "POST", 
       key: Date.now().toString(),
       body: {
-        imgUrl: predictionImgUrl.value,
+        sdUrl: predictionImgUrl.value,
         lineOne: lineOne.value,
         lineTwo: lineTwo.value,
         lineThree: lineThree.value,
         presetId: presetId.value
-      }
+      },
+      headers: useRequestHeaders(['cookie'])
     })
-    strapiAikuId.value = data.value
-    haiku.strapiAikuId = strapiAikuId.value
   } catch(error) {
     console.log(error)
   }
@@ -320,8 +320,10 @@ const fetchPrediction = async () => {
       haiku.imgUrl = data.value.output[0]
       predictionImgUrl.value = data.value.output[0] 
       
-      // saveAiku to strapeezy
-      await saveAiku()
+      // saveAiku if user is logged in
+      if(user) {
+        await saveAiku()
+      }
 
       submitLoading.value = false
       return
@@ -349,10 +351,10 @@ const { data: presetsResp, error: presetsError } = await useFetch("/api/presets"
 
 // if there is not an error then we set the presets array from API data
 if (!presetsError.value) {
-  for (const preset of presetsResp.value.data) {
-    presets.value.set(preset.attributes.name, preset.attributes.value) 
-    if(preset.attributes.isDefault) {
-      selectedPreset.value = preset.attributes.name
+  for (const preset of presetsResp.value) {
+    presets.value.set(preset.name, preset.value) 
+    if(preset.isDefault) {
+      selectedPreset.value = preset.name
     }
   }
 }
@@ -370,7 +372,7 @@ if (presetsError.value) {
 }
 
 const presetId = computed(() => {
-  const matching = presetsResp.value.data.filter(p => p.attributes.name === selectedPreset.value)
+  const matching = presetsResp.value.filter(p => p.name === selectedPreset.value)
   if(matching.length > 0) {
     return matching[0].id
   }
