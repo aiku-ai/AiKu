@@ -1,24 +1,194 @@
 <template>
-  <div class="flex items-center justify-center h-screen bg-zinc-100 dark:bg-zinc-800">
-    <main class="px-4">
-      <h1 class="text-3xl font-bold dark:text-zinc-200 text-zinc-700">
-        <span class="block">Hyperdrive engaged</span> 
-        <span class="block">Time and space a memory</span> 
-        <span class="block">Lightspeed traveler</span> 
-      </h1>
-      <nuxt-link to="/create" class="w-full mt-5 inline-flex justify-center items-center rounded-md border border-transparent bg-violet-600 px-8 py-3 text-base font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-3 h-6 w-6" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-          <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
-          <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
-          <circle cx="15" cy="9" r="1" />
+  <main v-if="baseAikus && aikusForFeed && aikuImgMap.size > 0">
+    <!-- top button -->
+    <div class="fixed top-0 p-2 flex items-center justify-between w-full">
+      <NuxtLink to="/" class="font-bold text-zinc-50" style="text-shadow: 1px 1px 8px black;">AiKu</NuxtLink>
+      <NuxtLink to="/">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-50">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
-        Create your own hAIku
-      </nuxt-link>
-    </main>
-  </div>
+      </NuxtLink>
+    </div> 
+
+    <!-- bottom buttons -->
+    <div class="fixed bottom-0 px-4 pb-6 flex items-center justify-between w-full">
+      <div class="flex items-center space-x-1 text-zinc-50" style="text-shadow: 1px 1px 8px black;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-50">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+        </svg>
+        <span class="text-xs font-bold">69420</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <NuxtLink to="/">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-50">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+          </svg>
+        </NuxtLink>
+        <NuxtLink to="/">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-50">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+          </svg>
+        </NuxtLink>
+        <NuxtLink to="/">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-zinc-50">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+        </NuxtLink>
+      </div>
+    </div> 
+
+    <!-- background image -->
+    <img :src="aikuImgMap.get(curViewAikuIndex)" alt="" class="h-[100vh] fixed top-0 left-0 w-full object-cover" :style="'z-index: -1; opacity:' + opacity + ';'">
+
+    <!-- aiku text -->
+    <div v-for="(aiku, index) in aikusForFeed" :key="aiku.id" class="flex items-center justify-center h-screen" :style="'opacity:' + opacity + ';'">
+      <div style="text-shadow: 1px 1px 8px black;" :id="'aiku_'+ index">
+        <p class="font-bold text-white">{{ aiku.lineOne }}</p> 
+        <p class="font-bold text-white">{{ aiku.lineTwo }}</p> 
+        <p class="font-bold text-white">{{ aiku.lineThree }}</p> 
+      </div>
+    </div>
+
+  </main>
 </template>
 
 <script setup lang="ts">
+import type { aiku } from '@prisma/client'
+import { useWindowSize } from '@vueuse/core'
 
+definePageMeta({
+  layout: 'browse'
+})
+
+const sbClient = useSupabaseClient()
+const aikusForFeed = ref<aiku[]>()
+
+const loadCount = ref(5)
+// this holds how many sets of AiKus we've loaded
+const setsLoaded = ref(0)
+
+const { data: baseAikus, error: baseAikusError } = await useFetch<aiku[]>(`/api/v2/aikus`, {
+  query: {
+    count: loadCount.value
+  }
+})
+
+if (baseAikusError.value || !baseAikus.value) {
+  // TO DO: Proper error handling here
+  console.log("an error occured gettings aikus")
+} else {
+  // on initial load, we just want to set it equal
+  aikusForFeed.value = baseAikus.value!
+  setsLoaded.value++
+}
+
+
+const getMoreAikusLoading = ref(false)
+const getAndAppendMoreAikus = async (cursor: string) => {
+  getMoreAikusLoading.value = true
+  const { data: aikus, error: aikusError } = await useFetch<aiku[]>(`/api/v2/aikus`, {
+    query: {
+      count: loadCount.value,
+      cursor: cursor
+    }
+  })
+  
+  if (aikusError.value) {
+    // TO DO: Proper error handling here
+    console.log(`Failed to get more aikus, error: ${aikusError.value}`)
+  } else {
+    setsLoaded.value++
+  }
+
+  // I could split this out, but whatever
+  await dwnldAikuImages(aikus.value!)
+
+  for (const aiku of aikus.value!) {
+    aikusForFeed.value?.push(aiku)
+  }
+  getMoreAikusLoading.value = false
+}
+
+// cur index stuff
+const curViewAikuIndex = ref(0)
+watch(curViewAikuIndex, async () => {
+  // if we've scrolled through x% of aikus and we're not already loading more, then get more
+  if (((curViewAikuIndex.value + 1) / aikusForFeed.value?.length! > 0.75) && !getMoreAikusLoading.value && aikusForFeed.value) {
+    const cursor = aikusForFeed.value[curViewAikuIndex.value].id
+    await getAndAppendMoreAikus(cursor)
+  }
+})
+
+
+const opacity = ref(1)
+
+// IMG STUFF, basically we're downloading the data as blobs so there are no hiccups while scrolling
+const aikuImgMap = ref<Map<number, string>>(new Map())
+
+const getObjectUrl = (img: Blob):string => {
+  const urlCreator = window.URL
+  return urlCreator.createObjectURL(img)
+}
+
+const dwnldAikuImages = async (aikus: aiku[]) => {
+  for (let i = 0; i < aikus.length; i++) {
+    const imgBin = await sbClient.storage.from('aikus').download(`${aikus[i].id}.png`)
+    if (imgBin.error) {
+      // TO DO: Proper error handling
+      console.log(imgBin.error)
+    }
+    // we don't want to overwrite the indexes of previous added aiku images
+    if (setsLoaded.value === 1) {
+      aikuImgMap.value.set(i, getObjectUrl(imgBin.data!))
+    } else {
+      const index =  i + aikusForFeed.value?.length!
+      console.log("loading additional, index is: " + index)
+      aikuImgMap.value.set(index, getObjectUrl(imgBin.data!))
+    }
+  }
+}
+
+if (process.client) {
+  dwnldAikuImages(aikusForFeed.value!)
+
+  // SCROLL STUFF
+  const { width, height } = useWindowSize()
+
+  const scrollUpdate = () => {
+    const elem = document.getElementById(`aiku_${curViewAikuIndex.value}`);
+
+    if (!elem) {
+      console.log('no element found with that id')
+      return
+    }
+    const rect = elem?.getBoundingClientRect()
+
+    // this means that it's at the top of the viewport and to go next
+    if (rect.bottom <= 0) {
+      curViewAikuIndex.value++
+    }
+
+    // this means that it's at the bottom of the viewport and to go previous
+    if (rect.top >= height.value) {
+      curViewAikuIndex.value--
+    }
+
+    // update opacity
+    const centerPoint = (rect.top + rect.bottom) / 2
+    const topBound = height.value * .30
+    const botBound = height.value * .70
+    const botBoundHeight = height.value - botBound
+
+    if (centerPoint <= topBound) {
+      opacity.value = centerPoint / topBound
+    } else if (centerPoint >= botBound) {
+      const distPastBotBound = centerPoint - botBound
+      opacity.value = 1 - (distPastBotBound / botBoundHeight)
+    } else {
+      opacity.value = 1 
+    }
+  }
+
+  document.addEventListener('scroll', scrollUpdate)
+}
 </script>
