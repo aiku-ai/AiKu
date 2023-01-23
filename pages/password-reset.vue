@@ -3,16 +3,12 @@
     <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
-          <!-- <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=600" alt="Your Company"> -->
           <h2 class="mt-6 text-3xl font-bold tracking-tight dark:text-zinc-100 text-zinc-900">Reset password</h2>
         </div>
 
         <div class="mt-8">
           <div class="mt-6">
-            <form
-              @submit.prevent="resetPassword()"
-              class="space-y-6"
-            >
+            <form class="space-y-6" @keyup.prevent.enter="resetPassword()">
               <div>
                 <label for="email" class="block text-sm font-medium dark:text-zinc-300 text-zinc-700">Email address</label>
                 <div class="mt-1">
@@ -21,7 +17,7 @@
               </div>
 
               <div>
-                <button type="submit" class="mt-2 flex w-full justify-center rounded-md border border-transparent bg-violet-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300">Reset</button>
+                <SubmitButton @submit="resetPassword()" submit-text="Reset password" size="md" color="violet" :submit-loading="resetPwdLoading" :is-valid-state="email !== '' || email !== null" />
               </div>
             </form>
           </div>
@@ -35,23 +31,28 @@
 </template>
 
 <script setup lang="ts">
-import { NotificationType } from "~/stores/notification"
 
 const config = useRuntimeConfig()
-const client = useSupabaseClient()
+const client = useSupabaseAuthClient()
 
 const email = ref('')
 
+const resetPwdLoading = ref(false)
 
 const resetPassword = async() => {
+  resetPwdLoading.value = true
   const { error } = await client.auth.resetPasswordForEmail(email.value, {
-    redirectTo: `${config.public.baseUrl}/settings`
+    redirectTo: `${config.public.baseUrl}/password-update`
   })
 
   if(error) {
-    useNoti(NotificationType.error, 'Uh oh', error.message)
+    useNoti("error", 'Uh oh', error.message)
+    resetPwdLoading.value = false
     return
   }
-  useNoti(NotificationType.success, 'Email sent', "Reset link sent to your email")
+
+  resetPwdLoading.value = false
+  useNoti("success", "Email sent", "Reset link sent to your email")
+  navigateTo("/")
 }
 </script>
