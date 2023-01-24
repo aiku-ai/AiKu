@@ -4,6 +4,8 @@ export default defineNuxtConfig({
     repApiKey: '',
     strapiToken: '',
     strapiBase: '',
+    imgServiceApiBase: '',
+    imgServiceApiToken: '',
     public: {
       baseUrl: ''
     }
