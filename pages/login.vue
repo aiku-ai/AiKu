@@ -117,6 +117,6 @@ const signIn = async() => {
     return
   }
 
-  navigateTo("/browse")
+  navigateTo("/create")
 }
 </script>
