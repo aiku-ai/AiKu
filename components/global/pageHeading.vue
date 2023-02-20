@@ -1,8 +1,8 @@
 <template>
-  <div class="lg:flex lg:items-center lg:justify-between border-b dark:border-zinc-600 border-zinc-300 pb-2">
+  <div class="lg:flex lg:items-center lg:justify-between border-b dark:border-gray-600 border-gray-300 pb-2">
     <div class="min-w-0 flex-1">
-      <h2 class="text-2xl font-bold leading-7 dark:text-zinc-100 text-zinc-900 sm:truncate sm:text-3xl sm:tracking-tight">{{ header }}</h2>
-      <p class="mt-2 max-w-4xl text-sm dark:text-zinc-400 text-zinc-500">{{ subHeader }}</p>
+      <h2 class="text-2xl font-bold leading-7 dark:text-gray-100 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">{{ header }}</h2>
+      <p class="mt-2 max-w-4xl text-sm dark:text-gray-400 text-gray-500">{{ subHeader }}</p>
     </div>
     <div class="mt-5 flex lg:mt-0 lg:ml-4">
       <span class="hidden sm:block">

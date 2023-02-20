@@ -13,20 +13,20 @@
       leave-from-class="transform opacity-100 scale-100"
       leave-to-class="transform opacity-0 scale-95"
     >
-      <div v-if="showManageCollection" class="absolute inset-0 rounded-lg dark:bg-zinc-900 bg-zinc-200 z-10">
+      <div v-if="showManageCollection" class="absolute inset-0 rounded-lg dark:bg-gray-900 bg-gray-200 z-10">
         <div v-if="collections.data.length === 0" class="flex items-center justify-center h-full px-4">
           <div>
-            <p class="text-sm dark:text-zinc-400 text-zinc-600">You don't have any collections yet, create one?</p>
+            <p class="text-sm dark:text-gray-400 text-gray-600">You don't have any collections yet, create one?</p>
             <div
-              class="mt-3 rounded-md border px-3 py-1 border-zinc-300 focus-within:border-violet-600 focus-within:ring-violet-600 shadow-sm focus-within:ring-1 transition-hover-300"
+              class="mt-3 rounded-md border px-3 py-1 border-gray-300 focus-within:border-violet-600 focus-within:ring-violet-600 shadow-sm focus-within:ring-1 transition-hover-300"
             >
-              <label for="new-collection" class="block text-xs font-medium dark:text-zinc-100 text-zinc-900">Collection name</label>
+              <label for="new-collection" class="block text-xs font-medium dark:text-gray-100 text-gray-900">Collection name</label>
               <input 
                 v-model="collectionName"
                 type="text" 
                 name="new-collection" 
                 id="line-one" 
-                class="bg-transparent block w-full border-0 p-0 text-zinc-800 dark:text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm" 
+                class="bg-transparent block w-full border-0 p-0 text-gray-800 dark:text-gray-100 placeholder-gray-500 focus:ring-0 sm:text-sm" 
                 placeholder="Collection Name Xyz">
               
             </div> 
@@ -45,14 +45,14 @@
           <div class="w-full">
             <div class="px-4">
               <fieldset>
-                <legend class="text-sm font-bold dark:text-zinc-200 text-zinc-900">Add to collections</legend>
+                <legend class="text-sm font-bold dark:text-gray-200 text-gray-900">Add to collections</legend>
                 <div class="mt-4 overflow-x-hidden overflow-y-auto h-56 sm:h-48 xl:h-36">
                   <div v-for="collection in props.collections.data" class="relative flex items-start py-1">
                     <div class="min-w-0 flex-1 text-sm">
-                      <label :for="collection.name" class="select-none font-medium dark:text-zinc-300 text-zinc-700">{{ collection.name }}</label>
+                      <label :for="collection.name" class="select-none font-medium dark:text-gray-300 text-gray-700">{{ collection.name }}</label>
                     </div>
                     <div class="ml-3 flex h-5 items-center">
-                      <input v-if="colIdMapLoading !== collection.id" @input="modifyCollectionMap($event, collection.id)" :checked="aikuIsInCollection(collection.id)" :id="collection.name" :name="collection.name" type="checkbox" class="h-4 w-4 dark:bg-zinc-900 rounded border-zinc-300 text-violet-600 focus:ring-violet-500">
+                      <input v-if="colIdMapLoading !== collection.id" @input="modifyCollectionMap($event, collection.id)" :checked="aikuIsInCollection(collection.id)" :id="collection.name" :name="collection.name" type="checkbox" class="h-4 w-4 dark:bg-gray-900 rounded border-gray-300 text-violet-600 focus:ring-violet-500">
                       <svg v-if="colIdMapLoading === collection.id" class="h-4 w-4 animate-spin -ml-1 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -63,17 +63,17 @@
               </fieldset>
             </div> 
             <div class="absolute bottom-4 w-full px-4">
-              <p class="text-xs dark:text-zinc-400 text-zinc-600 font-bold">Add to new collection</p>
+              <p class="text-xs dark:text-gray-400 text-gray-600 font-bold">Add to new collection</p>
               <div
-                class="mt-1 rounded-md border px-3 py-0.5 border-zinc-300 focus-within:border-violet-600 focus-within:ring-violet-600 shadow-sm focus-within:ring-1 transition-hover-300"
+                class="mt-1 rounded-md border px-3 py-0.5 border-gray-300 focus-within:border-violet-600 focus-within:ring-violet-600 shadow-sm focus-within:ring-1 transition-hover-300"
               >
-                <label for="new-collection" class="block text-xs font-medium dark:text-zinc-100 text-zinc-900">Collection name</label>
+                <label for="new-collection" class="block text-xs font-medium dark:text-gray-100 text-gray-900">Collection name</label>
                 <input 
                   v-model="collectionName"
                   type="text" 
                   name="new-collection" 
                   id="line-one" 
-                  class="bg-transparent block w-full border-0 p-0 text-zinc-800 dark:text-zinc-100 placeholder-zinc-500 focus:ring-0 text-xs" 
+                  class="bg-transparent block w-full border-0 p-0 text-gray-800 dark:text-gray-100 placeholder-gray-500 focus:ring-0 text-xs" 
                   placeholder="Collection Name Xyz">
                 
               </div> 
@@ -93,13 +93,13 @@
       </div>
     </transition>
     <div v-if="props.allowManage">
-      <button v-if="!showManageCollection" @click="setManageCollection()" type="button" class="z-20 absolute top-2 right-2 bg-zinc-900/75 rounded-full text-zinc-400 hover:text-white transition-hover-300">
+      <button v-if="!showManageCollection" @click="setManageCollection()" type="button" class="z-20 absolute top-2 right-2 bg-gray-900/75 rounded-full text-gray-400 hover:text-white transition-hover-300">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
         </svg>
 
       </button> 
-      <button v-else @click="showManageCollection = false" type="button" class="z-20 absolute top-2 right-2 bg-zinc-900/75 rounded-full text-zinc-400 hover:text-white transition-hover-300">
+      <button v-else @click="showManageCollection = false" type="button" class="z-20 absolute top-2 right-2 bg-gray-900/75 rounded-full text-gray-400 hover:text-white transition-hover-300">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
         </svg>

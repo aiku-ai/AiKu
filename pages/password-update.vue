@@ -3,23 +3,23 @@
     <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
-          <h2 class="mt-6 text-3xl font-bold tracking-tight dark:text-zinc-100 text-zinc-900">Update password</h2>
-          <p class="mt-1 max-w-4xl text-sm dark:text-zinc-400 text-zinc-500">Enter your new password below.</p>
+          <h2 class="mt-6 text-3xl font-bold tracking-tight dark:text-gray-100 text-gray-900">Update password</h2>
+          <p class="mt-1 max-w-4xl text-sm dark:text-gray-400 text-gray-500">Enter your new password below.</p>
         </div>
 
         <div class="mt-8">
           <div class="mt-6">
             <form class="space-y-4" @keyup.prevent.enter="updatePassword()">
               <div>
-                <label for="password" class="block text-sm font-medium dark:text-zinc-300 text-zinc-700">Password</label>
+                <label for="password" class="block text-sm font-medium dark:text-gray-300 text-gray-700">Password</label>
                 <div class="mt-1">
-                  <input v-model="password" id="password" name="password" type="password" required class="block w-full appearance-none rounded-md dark:text-zinc-300 dark:bg-zinc-800 border border-zinc-300 px-3 py-2 placeholder-zinc-400 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
+                  <input v-model="password" id="password" name="password" type="password" required class="block w-full appearance-none rounded-md dark:text-gray-300 dark:bg-gray-900 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
                 </div>
               </div>
               <div>
-                <label for="password-confirm" class="block text-sm font-medium dark:text-zinc-300 text-zinc-700">Confirm Password</label>
+                <label for="password-confirm" class="block text-sm font-medium dark:text-gray-300 text-gray-700">Confirm Password</label>
                 <div class="mt-1">
-                  <input v-model="passwordConfirm" id="password-confirm" name="password-confirm" type="password" required class="block w-full appearance-none rounded-md dark:text-zinc-300 dark:bg-zinc-800 border border-zinc-300 px-3 py-2 placeholder-zinc-400 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
+                  <input v-model="passwordConfirm" id="password-confirm" name="password-confirm" type="password" required class="block w-full appearance-none rounded-md dark:text-gray-300 dark:bg-gray-900 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-violet-500 focus:outline-none focus:ring-violet-500 sm:text-sm transition-hover-300">
                 </div>
               </div>
               <div>

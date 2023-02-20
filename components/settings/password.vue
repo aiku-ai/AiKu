@@ -3,14 +3,14 @@
     <section aria-labelledby="payment-details-heading">
       <form action="#" method="POST">
         <div class="shadow sm:overflow-hidden sm:rounded-md">
-          <div class="dark:bg-zinc-900 bg-white py-6 px-4 sm:p-6">
+          <div class="dark:bg-gray-900 bg-white py-6 px-4 sm:p-6">
             <div>
-              <h2 id="payment-details-heading" class="text-lg font-medium leading-6 dark:text-zinc-100 text-zinc-900">Reset password</h2>
-              <p class="mt-1 text-sm dark:text-zinc-400 text-zinc-500">Reset your password here. You will receive a link to reset your password.</p>
+              <h2 id="payment-details-heading" class="text-lg font-medium leading-6 dark:text-gray-100 text-gray-900">Reset password</h2>
+              <p class="mt-1 text-sm dark:text-gray-400 text-gray-500">Reset your password here. You will receive a link to reset your password.</p>
             </div>
 
             <div class="mt-6 w-1/2 sm:w-full">
-              <p class="text-sm dark:text-zinc-400 text-zinc-500">Reset Password</p>
+              <p class="text-sm dark:text-gray-400 text-gray-500">Reset Password</p>
               <SubmitButton @submit="resetPassword()" submit-text="Reset password" size="md" color="violet" :submit-loading="resetPwdLoading" :is-valid-state="true" class="mt-1.5"/>
             </div>
           </div>

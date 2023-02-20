@@ -44,5 +44,5 @@ const showProfileDropdown = ref(false)
 const showMobileNav = ref(false)
 
 const mobileActiveLink = "dark:bg-violet-800/25 bg-violet-50 border-violet-500 dark:text-violet-500 text-violet-700 border-l-4"
-const mobileInactiveLink = "border-transparent dark:text-zinc-300 text-zinc-600 hover:bg-violet-800/25 hover:border-violet-300 hover:text-violet-500 border-l-4"
+const mobileInactiveLink = "border-transparent dark:text-gray-300 text-gray-600 hover:bg-violet-800/25 hover:border-violet-300 hover:text-violet-500 border-l-4"
 </script>

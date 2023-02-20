@@ -6,7 +6,7 @@
         <p class="font-bold text-lg text-white">{{ aiku.data.attributes.lineOne }}</p> 
         <p class="font-bold text-lg text-white">{{ aiku.data.attributes.lineTwo }}</p> 
         <p class="font-bold text-lg text-white">{{ aiku.data.attributes.lineThree }}</p> 
-        <p class="mt-2 font-base text-zinc-200">aiku.app</p>
+        <p class="mt-2 font-base text-gray-200">aiku.app</p>
       </div>
     </div>
   </div>
