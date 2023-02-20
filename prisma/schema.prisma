@@ -28,11 +28,12 @@ model aiku {
 }
 
 model preset {
-  id        Int     @id @default(autoincrement()) @db.SmallInt
-  name      String  @db.VarChar
-  value     String?
-  isDefault Boolean
-  aiku      aiku[]
+  id              Int     @id @default(autoincrement()) @db.SmallInt
+  name            String  @db.VarChar
+  value           String?
+  isDefault       Boolean
+  presetObjectKey String?
+  aiku            aiku[]
 
   @@schema("public")
 }
@@ -87,9 +88,11 @@ model identities {
   last_sign_in_at DateTime? @db.Timestamptz(6)
   created_at      DateTime? @db.Timestamptz(6)
   updated_at      DateTime? @db.Timestamptz(6)
+  email           String?   @default(dbgenerated("lower((identity_data ->> 'email'::text))"))
   users           users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([provider, id])
+  @@index([email])
   @@index([user_id])
   @@schema("auth")
 }
@@ -212,7 +215,6 @@ model sessions {
   users          users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   mfa_amr_claims mfa_amr_claims[]
   refresh_tokens refresh_tokens[]
-  sso_sessions   sso_sessions[]
 
   @@index([user_id, created_at], map: "user_id_created_at_idx")
   @@index([user_id])
@@ -239,25 +241,7 @@ model sso_providers {
   saml_providers    saml_providers[]
   saml_relay_states saml_relay_states[]
   sso_domains       sso_domains[]
-  sso_sessions      sso_sessions[]
 
-  @@schema("auth")
-}
-
-model sso_sessions {
-  id              String         @id @db.Uuid
-  session_id      String         @db.Uuid
-  sso_provider_id String?        @db.Uuid
-  not_before      DateTime?      @db.Timestamptz(6)
-  not_after       DateTime?      @db.Timestamptz(6)
-  idp_initiated   Boolean?       @default(false)
-  created_at      DateTime?      @db.Timestamptz(6)
-  updated_at      DateTime?      @db.Timestamptz(6)
-  sessions        sessions       @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  sso_providers   sso_providers? @relation(fields: [sso_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@index([session_id])
-  @@index([sso_provider_id])
   @@schema("auth")
 }
 
@@ -266,7 +250,7 @@ model users {
   id                          String         @id @db.Uuid
   aud                         String?        @db.VarChar(255)
   role                        String?        @db.VarChar(255)
-  email                       String?        @unique @db.VarChar(255)
+  email                       String?        @db.VarChar(255)
   encrypted_password          String?        @db.VarChar(255)
   email_confirmed_at          DateTime?      @db.Timestamptz(6)
   invited_at                  DateTime?      @db.Timestamptz(6)
@@ -294,6 +278,7 @@ model users {
   banned_until                DateTime?      @db.Timestamptz(6)
   reauthentication_token      String?        @default("") @db.VarChar(255)
   reauthentication_sent_at    DateTime?      @db.Timestamptz(6)
+  is_sso_user                 Boolean        @default(false)
   identities                  identities[]
   mfa_factors                 mfa_factors[]
   sessions                    sessions[]

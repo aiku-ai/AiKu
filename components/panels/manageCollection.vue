@@ -3,16 +3,16 @@
     <!-- Project name -->
     <div class="space-y-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:space-y-0 sm:py-5">
       <div>
-        <label for="collection-name" class="block text-sm font-medium dark:text-zinc-100 text-zinc-900 sm:mt-px sm:pt-2">Collection Name</label>
+        <label for="collection-name" class="block text-sm font-medium dark:text-gray-100 text-gray-900 sm:mt-px sm:pt-2">Collection Name</label>
       </div>
       <div class="sm:col-span-2">
-        <input v-model="newCollectionName" type="text" name="project-name" id="project-name" class="block w-full rounded-md dark:bg-zinc-900 dark:text-zinc-200 border-zinc-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm transition-hover-300">
+        <input v-model="newCollectionName" type="text" name="project-name" id="project-name" class="block w-full rounded-md dark:bg-gray-900 dark:text-gray-200 border-gray-300 shadow-sm focus:border-violet-500 focus:ring-violet-500 sm:text-sm transition-hover-300">
       </div>
     </div>
 
     <div>
-      <h6 class="block text-base font-medium dark:text-zinc-100 text-zinc-900 sm:mt-px sm:pt-2">Remove AiKus</h6>    
-      <p class="text-sm text-zinc-500">Remove AiKus from the collection. Removing does not delete the AiKu.</p>
+      <h6 class="block text-base font-medium dark:text-gray-100 text-gray-900 sm:mt-px sm:pt-2">Remove AiKus</h6>    
+      <p class="text-sm text-gray-500">Remove AiKus from the collection. Removing does not delete the AiKu.</p>
         <transition-group name="list" tag="div" class="mt-3 grid grid-cols-5 gap-4">
           <div v-for="map in collection.aikuCollectionMap" :key="map.id" class="relative group">
             <button v-if="!aikusToRemove.has(map.id)" @click="aikusToRemove.add(map.id)" class="z-10 absolute top-0 right-2 text-white">
@@ -26,14 +26,14 @@
               </svg>
             </button> 
             <img :src="map.aiku.sdUrl" :alt="map.aiku.lineOne" class="inset-0 rounded-lg">
-            <div :class="aikusToRemove.has(map.id) ? 'bg-zinc-900/75':''" class="absolute inset-0 group-hover:bg-zinc-900/75 transition-hover-300"></div>
+            <div :class="aikusToRemove.has(map.id) ? 'bg-gray-900/75':''" class="absolute inset-0 group-hover:bg-gray-900/75 transition-hover-300"></div>
           </div>
         </transition-group>
     </div>
 
-    <div class="absolute bottom-0 left-0 w-full border-t dark:border-zinc-700 border-zinc-300">
+    <div class="absolute bottom-0 left-0 w-full border-t dark:border-gray-700 border-gray-300">
       <div class="flex flex-shrink-0 justify-end px-4 py-4">
-        <button @click="emits('close')" type="button" class="rounded-md border border-zinc-300 dark:bg-transparent bg-white py-2 px-4 text-sm font-medium dark:text-zinc-300 text-zinc-700 shadow-sm hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-transparent focus:ring-offset-2 transition-hover-300">cancel</button>
+        <button @click="emits('close')" type="button" class="rounded-md border border-gray-300 dark:bg-transparent bg-white py-2 px-4 text-sm font-medium dark:text-gray-300 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-transparent focus:ring-offset-2 transition-hover-300">cancel</button>
         <SubmitButton @submit="saveChanges()" :submit-text="aikusToRemove.size > 0 ? `save & remove ${aikusToRemove.size} AiKu(s)`:'save'" size="sm" color="violet" :submit-loading="saveLoading" :is-valid-state="aikusToRemove.size > 0 || newCollectionName !== ''" class="ml-4"/>
       </div>
     </div>

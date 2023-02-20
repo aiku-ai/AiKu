@@ -18,6 +18,7 @@
     "@prisma/client": "^4.6.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@types/sharp": "^0.31.1",
     "@types/uuid": "^9.0.0",
     "@vueuse/components": "^9.11.1",

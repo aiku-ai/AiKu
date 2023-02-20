@@ -3,14 +3,14 @@
     <section aria-labelledby="payment-details-heading">
       <form action="#" method="POST">
         <div class="shadow sm:overflow-hidden sm:rounded-md">
-          <div class="dark:bg-zinc-900 bg-white py-6 px-4 sm:p-6">
+          <div class="dark:bg-gray-900 bg-white py-6 px-4 sm:p-6">
             <div>
-              <h2 id="payment-details-heading" class="text-lg font-medium leading-6 dark:text-zinc-100 text-zinc-900">Update Account Info</h2>
-              <p class="mt-1 text-sm dark:text-zinc-400 text-zinc-500">Update account information</p>
+              <h2 id="payment-details-heading" class="text-lg font-medium leading-6 dark:text-gray-100 text-gray-900">Update Account Info</h2>
+              <p class="mt-1 text-sm dark:text-gray-400 text-gray-500">Update account information</p>
             </div>
 
             <div class="mt-6">
-              <p class="text-sm dark:text-zinc-400 text-zinc-500">Delete Account</p>
+              <p class="text-sm dark:text-gray-400 text-gray-500">Delete Account</p>
               <SubmitButton @submit="showRealDeleteUser = true" submit-text="Delete account" size="md" color="violet" :submit-loading="false" :is-valid-state="!showRealDeleteUser" class="mt-1.5" />
               <SubmitButton v-if="showRealDeleteUser" @submit="deleteUser()" submit-text="Confirm deletion" size="md" color="violet" :submit-loading="deleteUserLoading" :is-valid-state="true" class="mt-1.5" />
             </div>
