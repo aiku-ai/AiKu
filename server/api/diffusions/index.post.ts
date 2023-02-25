@@ -25,8 +25,8 @@ export default defineEventHandler(async (event): Promise<PredictionResponse> => 
         "height": 896,
         "prompt_strength": body.promptStrength,
         "num_outputs": 1,
-        "num_interference_steps": 50,
-        "guidance_scale": 7.5
+        "num_interference_steps": 300,
+        "guidance_scale": 15
       }
     }
   })
