@@ -51,9 +51,9 @@ import {
   presetSelectionKey,
   presetSelectionIdKey,
   tweakTextKey,
-  seedImgUrlKey,
-  diffusionUrlsKey,
-  selectedImgUrlKey
+  imgUrlsToRenderKey,
+  imgUrlKey,
+  imgUrlOverlayKey
 } from '../keySymbols'
 
 const user = useSupabaseUser()
@@ -67,8 +67,9 @@ const presetSelection = ref('')
 const presetSelectionId = ref<number | null>(null)
 const tweakText = ref('')
 const seedImgUrl = ref('')
-const diffusionImgUrlList = ref<string[]>([])
-const selectedImgUrl = ref('')
+const imgUrlsToRender = ref<string[]>([])
+const imgUrlFull = ref('')
+const imgUrlOverlay = ref('')
 
 const diffusionLoading = ref(false)
 const diffusionError = ref<boolean>()
@@ -85,8 +86,9 @@ provide(aikuLineThreeKey, aikuLineThree)
 provide(presetSelectionKey, presetSelection)
 provide(presetSelectionIdKey, presetSelectionId)
 provide(tweakTextKey, tweakText)
-provide(diffusionUrlsKey, diffusionImgUrlList)
-provide(selectedImgUrlKey, selectedImgUrl)
+provide(imgUrlsToRenderKey, imgUrlsToRender)
+provide(imgUrlKey, imgUrlFull)
+provide(imgUrlOverlayKey, imgUrlOverlay)
 
 
 const submitHaiku = async (): Promise<void> => {
@@ -120,7 +122,7 @@ const saveAiku = async () => {
     method: "POST",
     key: Date.now().toString(),
     body: {
-      sdUrl: selectedImgUrl.value,
+      sdUrl: imgUrlFull.value,
       lineOne: aikuLineOne.value,
       lineTwo: aikuLineTwo.value,
       lineThree: aikuLineThree.value,
@@ -193,8 +195,9 @@ const fetchPrediction = async () => {
     const brkpts = useBreakpoints(breakpointsTailwind)
     if (brkpts.smallerOrEqual('md').value) {
       const url = await createImageOverlay(data.value.output[0])
-      diffusionImgUrlList.value.push(url)
-      selectedImgUrl.value = url
+      imgUrlsToRender.value.push(url)
+      imgUrlFull.value = data.value.output[0]
+      imgUrlOverlay.value = url
       pageState.value = 'edit'
       diffusionLoading.value = false
       return
@@ -202,8 +205,8 @@ const fetchPrediction = async () => {
 
     pageState.value = 'edit'
     diffusionLoading.value = false
-    diffusionImgUrlList.value.push(data.value.output[0])
-    selectedImgUrl.value = data.value.output[0]
+    imgUrlsToRender.value.push(data.value.output[0])
+    imgUrlFull.value = data.value.output[0]
 
     return
   }
