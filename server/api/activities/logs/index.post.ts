@@ -1,7 +1,7 @@
 // var MatomoTracker = require('matomo-tracker')
 
 // // Initialize with your site ID and Matomo URL
-// var matomo = new MatomoTracker(1, 'http://dlmatomovm01.dellalabs.net/matomo.php')
+// var matomo = new MatomoTracker(1, '')
 
 // matomo.track({
 //     url: 'http://localhost:3000',
