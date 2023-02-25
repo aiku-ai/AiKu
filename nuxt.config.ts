@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     strapiBase: '',
     imgServiceApiBase: '',
     imgServiceApiToken: '',
+    sdVersion: '',
     public: {
       baseUrl: ''
     }
