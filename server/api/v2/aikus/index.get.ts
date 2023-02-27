@@ -14,7 +14,9 @@ export type AikuPlusImg = {
 /**
   * This endpoint returns AiKus for the browse/feed page
 **/
-export default defineEventHandler(async (event):Promise<(aiku & { _count: { aikuActivity: number }})[]> => {
+export default defineEventHandler(async (event): Promise<(aiku & { _count: { aikuActivity: number } })[]> => {
+  console.log(JSON.stringify(event))
+
   const query = zh.useValidatedQuery(event, z.object({
     count: z.string(),
     cursor: z.string().optional()
@@ -26,8 +28,8 @@ export default defineEventHandler(async (event):Promise<(aiku & { _count: { aiku
   return await getAikus(parseInt(query.count))
 })
 
-const getAikus = async (count: number):Promise<(aiku & {users: users, _count: { aikuActivity: number }})[]> => {
-  return await prisma.aiku.findMany({ 
+const getAikus = async (count: number): Promise<(aiku & { users: users, _count: { aikuActivity: number } })[]> => {
+  return await prisma.aiku.findMany({
     take: count,
     orderBy: {
       createdAt: "desc"
@@ -41,8 +43,8 @@ const getAikus = async (count: number):Promise<(aiku & {users: users, _count: { 
   })
 }
 
-const getAikusWithCursor = async (count: number, cursor: string):Promise<(aiku & {users: users, _count: { aikuActivity: number }})[]> => {
-  return await prisma.aiku.findMany({ 
+const getAikusWithCursor = async (count: number, cursor: string): Promise<(aiku & { users: users, _count: { aikuActivity: number } })[]> => {
+  return await prisma.aiku.findMany({
     take: count,
     skip: count,
     cursor: {
@@ -60,7 +62,7 @@ const getAikusWithCursor = async (count: number, cursor: string):Promise<(aiku &
   })
 }
 
-const getImgBinary = async (event: H3Event, aikuId: string):Promise<Blob | null> => {
+const getImgBinary = async (event: H3Event, aikuId: string): Promise<Blob | null> => {
   const sbClient = serverSupabaseServiceRole(event)
   const imgBin = await sbClient.storage.from('aikus').download(`${aikuId}.png`)
 
