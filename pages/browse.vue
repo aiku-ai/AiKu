@@ -238,5 +238,10 @@ if (process.client) {
   }
 
   document.addEventListener('scroll', scrollUpdate)
+
+  tryOnBeforeUnmount(() => {
+    document.removeEventListener('scroll', scrollUpdate)
+  }) 
 }
+
 </script>

@@ -4,8 +4,10 @@
     <div v-if="pageState === 'new'">
       <div class="grid place-items-center min-h-[90vh]">
         <div class="max-w-xl grid grid-cols-1 gap-y-8">
-          <CreateHaikuText collapsed-base-state="open" />
-          <CreatePresetStyles collapsed-base-state="open" />
+          <div class="md:h-[80vh] overflow-auto md:pr-4 space-y-6">
+            <CreateHaikuText collapsed-base-state="open" />
+            <CreatePresetStyles collapsed-base-state="open" />
+          </div>
           <div>
             <SubmitButton color="violet" submit-text="Create" :is-valid-state="true" :submit-loading="diffusionLoading"
               :submit-loading-text="loadingStatus" :svg="rocket" @submit="submitHaiku()" />

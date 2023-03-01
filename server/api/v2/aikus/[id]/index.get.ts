@@ -1,18 +1,26 @@
-import { GetAikuResponse } from '~/models/strapi'
+import { PrismaClient } from '@prisma/client'
+import type { aiku, users } from '@prisma/client'
 
-const config = useRuntimeConfig()
+const prisma = new PrismaClient()
 
-export default defineEventHandler(async (event):Promise<GetAikuResponse> => {
+/**
+  * This endpoint returns an AiKu by id
+**/
+export default defineEventHandler(async (event) => {
   const aikuId = event.context.params.id
 
-  const response = await $fetch<GetAikuResponse>(`${config.strapiBase}/api/aikus/${aikuId}?populate=%2A`, {
-    method: "GET",
-    headers: {
-      "Authorization": `bearer ${config.strapiToken}`,
-      "Content-Type": "application/json"
-    }
-  })
-  
-  return response
+  const aiku = await getAiku(aikuId)
+  if (!aiku) {
+    throw createError({ statusCode: 404, statusMessage: "AiKu could not be found" })
+  }
+
+  return aiku
 })
 
+const getAiku = async (aikuId: string) => {
+  return await prisma.aiku.findUnique({
+    where: {
+      id: aikuId
+    }
+  })
+}
