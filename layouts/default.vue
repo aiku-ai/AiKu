@@ -9,7 +9,7 @@
         <div class="flex h-16 justify-between">
           <div class="flex">
             <div class="flex flex-shrink-0 items-center">
-              <NuxtLink to="/" class="text-black dark:text-gray-100 text-gray-900">AiKu</NuxtLink>
+              <NuxtLink to="/create" class="text-black dark:text-gray-100 text-gray-900">AiKu</NuxtLink>
             </div>
             <div class="hidden sm:-my-px sm:ml-16 sm:flex sm:space-x-8">
               <NuxtLink to="/browse" :class="curPath === '/browse' ? 'border-violet-500 dark:text-gray-100 text-gray-900':'text-gray-500'" class="border-transparent dark:text-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-hover-300" aria-current="page">Browse</NuxtLink>
@@ -32,7 +32,7 @@
                     Me 
                   </div>
                 </button>
-                <NuxtLink v-else to="/login" class="inline-flex items-center rounded-md border dark:border-gray-700 border-gray-300 dark:bg-gray-900 bg-gray-100 px-3 py-2 text-sm font-medium leading-4 dark:text-gray-300 text-gray-700 shadow-sm hover:border-violet-600/50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition-hover-300">Login</NuxtLink>
+                <NuxtLink v-else to="/login" class="inline-flex items-center rounded-md border dark:border-gray-700 border-gray-300 dark:bg-gray-900 bg-gray-100 px-3 py-2 text-sm font-medium leading-4 dark:text-gray-300 text-gray-700 shadow-sm hover:border-violet-600/50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-gray-100 focus:dark:ring-offset-gray-900 focus:ring-offset-2 transition-hover-300">Login</NuxtLink>
               </div>
 
               <transition
@@ -44,7 +44,7 @@
                 leave-to-class="transform opacity-0 scale-95" 
               >
                 <div v-if="showProfileDropdown" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md dark:bg-gray-900 bg-gray-100 py-1 shadow-lg ring-1 dark:ring-gray-600 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                  <NuxtLink @click="showProfileDropdown = false" to="/" class="block px-4 py-2 text-sm dark:text-gray-300 text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</NuxtLink>
+                  <NuxtLink @click="showProfileDropdown = false" to="/my-stuff" class="block px-4 py-2 text-sm dark:text-gray-300 text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">My Stuff</NuxtLink>
                   <NuxtLink @click="showProfileDropdown = false" to="/settings" class="block px-4 py-2 text-sm dark:text-gray-300 text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</NuxtLink>
                   <button @click="signOut(), showProfileDropdown = false" type="button" class="block px-4 py-2 text-sm dark:text-gray-300 text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</button>
                 </div>
@@ -58,7 +58,7 @@
             </button>
 
             <!-- Mobile menu button -->
-            <button @click="showMobileNav = !showMobileNav" type="button" class="ml-4 inline-flex items-center justify-center rounded-md dark:bg-gray-900 bg-gray-100 p-2 dark:text-gray-500 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2" aria-controls="mobile-menu" aria-expanded="false">
+            <button @click="showMobileNav = !showMobileNav" type="button" class="ml-4 inline-flex items-center justify-center rounded-md dark:bg-gray-900 bg-gray-100 p-2 dark:text-gray-500 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-gray-100 focus:dark:ring-offset-gray-900 transition-hover-300" aria-controls="mobile-menu" aria-expanded="false">
               <span class="sr-only">Open main menu</span>
               <svg :class="!showMobileNav ? 'block':'hidden'" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -74,21 +74,15 @@
       <!-- Mobile menu, show/hide based on menu state. -->
       <div v-if="showMobileNav" class="sm:hidden" id="mobile-menu">
         <div class="space-y-1 pt-2 pb-3">
-          <NuxtLink to="/browse" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium" aria-current="page">Browse</NuxtLink>
-          <NuxtLink to="/create" :class="curPath === '/create' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium" aria-current="page">Create</NuxtLink>
-          <NuxtLink v-if="user" to="/" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium" aria-current="page">My stuff</NuxtLink>
+          <NuxtLink @click="showMobileNav = false" to="/browse" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium transition-hover-300" aria-current="page">Browse</NuxtLink>
+          <NuxtLink @click="showMobileNav = false" to="/create" :class="curPath === '/create' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium transition-hover-300" aria-current="page">Create</NuxtLink>
+          <NuxtLink @click="showMobileNav = false" v-if="user" to="/my-stuff" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium transition-hover-300" aria-current="page">My stuff</NuxtLink>
         </div>
-        <div class="border-t border-gray-200 pt-4 pb-3">
-          <div class="flex items-center px-4">
-            <div>
-              <div class="text-base font-medium dark:text-gray-300 text-gray-800">Tom Cook</div>
-              <div class="text-sm font-medium dark:text-gray-400 text-gray-500">tom@example.com</div>
-            </div>
-          </div>
-          <div class="mt-3 space-y-1">
-            <a href="#" class="block px-4 py-2 text-base font-medium dark:text-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-800">Your Profile</a>
-            <a href="#" class="block px-4 py-2 text-base font-medium dark:text-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-800">Settings</a>
-            <a href="#" class="block px-4 py-2 text-base font-medium dark:text-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-800">Sign out</a>
+        <div class="border-t dark:border-gray-800 border-gray-200 pt-4 pb-3">
+          <div class="space-y-1">
+            <NuxtLink @click="showMobileNav = false" to="/settings" :class="curPath === '/settings' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium transition-hover-300" transition-hover-300 aria-current="page">Settings</NuxtLink>
+            <button @click="showMobileNav = false, signOut()" v-if="user" type="button" :class="curPath === '/' ? mobileActiveLink:mobileInactiveLink" class="block w-full pl-3 pr-4 py-2 text-left text-base font-medium transition-hover-300" aria-current="page">Sign out</button>
+            <NuxtLink @click="showMobileNav = false" v-if="!user" to="/login" :class="curPath === '/login' ? mobileActiveLink:mobileInactiveLink" class="block pl-3 pr-4 py-2 text-base font-medium transition-hover-300" aria-current="page">Sign in</NuxtLink>
           </div>
         </div>
       </div>
@@ -131,7 +125,7 @@ const curPath = computed(() => {
 const haiku = useHaikuStore()
 
 
-const isDark = useCookie("isDark")
+const isDark = useCookie<boolean>("isDark")
 
 const showProfileDropdown = ref(false)
 const showMobileNav = ref(false)
