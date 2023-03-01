@@ -76,7 +76,7 @@ definePageMeta({
   middleware: 'auth'
 })
 
-const pageShowing = ref<"aikus" | "collections">("collections")
+const pageShowing = ref<"aikus" | "collections">("aikus")
 
 const user = useSupabaseUser()
 

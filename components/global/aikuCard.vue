@@ -1,10 +1,12 @@
 <template>
   <div :key="props.aiku.id" class="relative rounded-lg xl:h-80 md:h-96 h-[30rem]">
-    <img 
-      :src="props.aiku.sdUrl" 
-      class="rounded-lg h-full w-full object-cover"
-      v-if="!showManageCollection"
-    >
+    <NuxtLink :to="config.public.baseUrl + '/aikus/' + props.aiku.id" :key="props.aiku.id" class="relative rounded-lg xl:h-80 md:h-96 h-[30rem]">
+      <img 
+        :src="props.aiku.sdUrl" 
+        class="rounded-lg h-full w-full object-cover"
+        v-if="!showManageCollection"
+      >
+    </NuxtLink>
     <transition
       enter-active-class="transition ease-out duration-100"
       enter-from-class="transform opacity-0 scale-95"
@@ -124,8 +126,8 @@ type CardProps = {
   allowManage?:boolean
 }
 const props = defineProps<CardProps>()
-
 const emit = defineEmits(['refetchCollections'])
+const config = useRuntimeConfig()
 
 const showManageCollection = ref(false)
 
