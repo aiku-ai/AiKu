@@ -2,8 +2,8 @@
   <main v-if="baseAikus && aikusForFeed && aikuImgMap.size > 0">
     <!-- top button -->
     <div class="fixed top-0 p-2 flex items-center justify-between w-full">
-      <NuxtLink to="/" class="font-bold text-gray-50" style="text-shadow: 1px 1px 8px black;">AiKu</NuxtLink>
-      <NuxtLink to="/">
+      <NuxtLink to="/create" class="font-bold text-gray-50" style="text-shadow: 1px 1px 8px black;">AiKu</NuxtLink>
+      <NuxtLink to="/create">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-50">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>

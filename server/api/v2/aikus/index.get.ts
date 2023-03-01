@@ -15,8 +15,6 @@ export type AikuPlusImg = {
   * This endpoint returns AiKus for the browse/feed page
 **/
 export default defineEventHandler(async (event): Promise<(aiku & { _count: { aikuActivity: number } })[]> => {
-  console.log(JSON.stringify(event))
-
   const query = zh.useValidatedQuery(event, z.object({
     count: z.string(),
     cursor: z.string().optional()
