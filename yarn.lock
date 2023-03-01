@@ -3256,11 +3256,6 @@ make-dir@^3.1.0, make-dir@~3.1.0:
   dependencies:
     semver "^6.0.0"
 
-matomo-tracker@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/matomo-tracker/-/matomo-tracker-2.2.4.tgz#ee397d915d7b2e7964996ca28a0a03f4f0692453"
-  integrity sha512-7fDy4wRhDQ1dnSxVqmnVqmmos9ACKag0fCBtBD3/Qeoqks7MFqXcO35nfS6S8xU/IXNf7534q/4Gx8fuWKYW6A==
-
 mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.14.tgz"

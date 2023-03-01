@@ -4,6 +4,8 @@ export default defineNuxtConfig({
     repApiKey: '',
     strapiToken: '',
     strapiBase: '',
+    matomoBase: '',
+    matomoSiteId: '',
     imgServiceApiBase: '',
     imgServiceApiToken: '',
     sdVersion: '',

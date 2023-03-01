@@ -1,19 +1,21 @@
-// var MatomoTracker = require('matomo-tracker')
-
-// // Initialize with your site ID and Matomo URL
-// var matomo = new MatomoTracker(1, '')
-
-// matomo.track({
-//     url: 'http://localhost:3000',
-//     action_name: 'Initial test',
-//     cvar: JSON.stringify({
-//         '1': ['customVar', 'route change detected']
-//     })
-// })
+import { $fetch } from 'ofetch'
 export default defineEventHandler(async (event) => {
-    const body = readBody(event)
-  
-    console.log(body)
-  
-    event.node.res.end()
+  const config = useRuntimeConfig()
+  const body = await readBody(event)
+
+
+  await $fetch(`${config.matomoBase}`, {
+    method: "GET",
+    params: {
+      idsite: config.matomoSiteId,
+      rec: 1,
+      uadata: event.node.req.headers["user-agent"],
+      cookie: 1,
+      action_name: "NavChange",
+      rand: "random123",
+    }
   })
+  console.log(body)
+
+  event.node.res.end()
+})

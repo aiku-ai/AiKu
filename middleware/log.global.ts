@@ -1,12 +1,24 @@
+import { $fetch } from 'ofetch'
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    console.log(to)
-    console.log(from)
-  
-    const { data, error } = await useFetch("/api/activities/log", {
-      method: "POST",
-      body: {
-        to: to,
-        from: from
-      }
-    })
+  const config = useRuntimeConfig()
+  const user = useSupabaseUser()
+
+  let visitorId = null
+  if (user.value) {
+    visitorId = user.value.id
+  } else {
+    // create tracking cookie so we can handle unauthed users
+    visitorId = 'anonuser'
+  }
+
+
+  await $fetch(`${config.public.baseUrl}/api/activities/logs`, {
+    method: "POST",
+    body: {
+      to: to.fullPath,
+      from: from.fullPath,
+      visitorId: visitorId
+    }
   })
+})
