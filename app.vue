@@ -1,12 +1,28 @@
 <template>
-  <div>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <NuxtLoadingIndicator color="#7c3aed" />
+    <NuxtPage />
+    <Notification />
+  </NuxtLayout>
 </template>
 
+<script setup lang="ts">
+const client = useSupabaseAuthClient()
+
+client.auth.onAuthStateChange((_, _session) => {
+  if(_session?.access_token) {
+    const accessToken = useCookie('sb-access-token')
+    const refreshToken = useCookie('sb-refresh-token')
+    accessToken.value = _session?.access_token ?? null
+    refreshToken.value = _session?.refresh_token ?? null
+  }
+})
+
+</script>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
 html {
   font-family: 'Space Mono', monospace;
   overflow-y: overlay;
