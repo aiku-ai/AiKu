@@ -66,5 +66,24 @@ definePageMeta({
   layout: false
 }) 
 
-const showMobile = ref(false)
+const config = useRuntimeConfig()
+
+useHead({
+  title: 'AiKu - Create art through the power of AI',
+  meta: [
+    // PRIMARY TAGS
+    { hid: 'description', name: 'description', content: 'Write a 日本語の俳句 (Japanese haiku) and allow AI to generate art that goes along with it. Save, share, create collections, and print your creations.' },
+    { hid: 'title', name: 'title', content: 'AiKu - Create art through the power of AI' },
+    // OPEN GRAPH/FACEBOOK
+    { hid: 'og:type', property: 'og:type', content: 'website' },
+    { hid: 'og:url', property: 'og:url', content: config.public.baseUrl },
+    { hid: 'og:title', property: 'og:title', content: 'AiKu - Create art through the power of AI' },
+    { hid: 'og:image', property: 'og:image', content: config.public.baseUrl + '/aiku_card.png' },
+    // TWITTER
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'AiKu - Create art through the power of AI' },
+    { name: 'twitter:description', content: `Write a 日本語の俳句 (Japanese haiku) and allow AI to generate art that goes along with it. Save, share, create collections, and print your creations.` },
+    { name: 'twitter:image', content: config.public.baseUrl + '/aiku_card.png' }
+  ]
+})
 </script>
